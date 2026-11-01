@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SWASTHYA SENSE | Frontline Healthcare Worker (ASHA) Portal</title>
+
+  <!-- Modern Clean Healthcare Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* ASHA Portal Specific Accents */
+    .asha-pill {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .asha-stat-card {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+    .asha-stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+    }
+    .asha-stat-card.teal::before { background: var(--brand-teal); }
+    .asha-stat-card.emerald::before { background: var(--brand-emerald); }
+    .asha-stat-card.amber::before { background: var(--brand-amber); }
+    .asha-stat-card.crimson::before { background: var(--brand-crimson); }
+    .asha-stat-card.purple::before { background: #8b5cf6; }
+
+    .patient-field-card {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .patient-field-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: #cbd5e1;
+    }
+    .patient-field-card.urgent {
+      border-left: 5px solid var(--brand-crimson);
+      background: #fffafa;
+    }
+    .patient-field-card.overdue {
+      border-left: 5px solid var(--brand-amber);
+    }
+    .patient-field-card.routine {
+      border-left: 5px solid var(--brand-emerald);
+    }
+
+    .action-btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+    .btn-asha-action {
+      background: #0ea5e9;
+      color: #ffffff;
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+    .btn-asha-action:hover { background: #0284c7; }
+    .btn-asha-secondary {
+      background: #f1f5f9;
+      color: #334155;
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border: 1px solid #cbd5e1;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-asha-secondary:hover { background: #e2e8f0; }
+    .btn-asha-danger {
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border: 1px solid #fca5a5;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-asha-danger:hover { background: #fecaca; }
+
+    .facility-row-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px;
+      background: #f8fafc;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-layout">
+
+  <!-- =========================================================================
+       SIDEBAR NAVIGATION (FRONT-LINE ASHA WORKER VIEW)
+       ========================================================================= -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo-wrap">
+        <div class="brand-logo-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+          <i class="fa-solid fa-user-nurse"></i>
+        </div>
+        <div>
+          <div class="brand-name">SWASTHYA SENSE</div>
+          <div class="brand-tagline">Frontline Healthcare Worker</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active ASHA Worker Profile -->
+    <div class="sidebar-user-card">
+      <div class="user-avatar" id="ashaAvatar" style="background: #10b981; color: #fff;">SD</div>
+      <div class="user-info">
+        <div class="user-name" id="ashaWorkerName">Sunita Devi</div>
+        <div class="user-role">ASHA Facilitator · Ward 12</div>
+      </div>
+      <div class="user-status-dot" style="background: #10b981;" title="Field Surveillance Active"></div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-tab="field-queue">
+        <i class="fa-solid fa-list-check"></i>
+        <span id="navAshaQueue">Daily Field Queue</span>
+        <span class="nav-badge badge-amber" id="badgeAshaPending">3 Due</span>
+      </button>
+
+      <button class="nav-item" data-tab="rapid-checkin">
+        <i class="fa-solid fa-notes-medical"></i>
+        <span id="navAshaCheckin">+ Rapid Assisted Check-in</span>
+      </button>
+
+      <button class="nav-item" data-tab="dual-reminders">
+        <i class="fa-solid fa-comment-sms"></i>
+        <span id="navAshaReminders">Dual Reminders</span>
+        <span class="nav-badge badge-cyan" id="badgeAshaReminders">Guardian SMS</span>
+      </button>
+
+      <button class="nav-item" data-tab="clinical-referrals">
+        <i class="fa-solid fa-share-nodes"></i>
+        <span id="navAshaReferrals">Escalations & Referrals</span>
+        <span class="nav-badge badge-emerald">Dr. Ananya</span>
+      </button>
+
+      <button class="nav-item" data-tab="nearby-facilities">
+        <i class="fa-solid fa-hospital"></i>
+        <span id="navAshaFacilities">PHC & Doctors Directory</span>
+      </button>
+    </nav>
+
+    <!-- Quick Actions -->
+    <div class="sidebar-section-title">FRONTLINE TOOLS</div>
+    <div class="sidebar-quick-actions">
+      <button class="quick-action-btn" id="btnAshaQuickCheckin" style="background: #10b981;">
+        <i class="fa-solid fa-plus"></i>
+        <span>Record Field Vitals</span>
+      </button>
+
+      <button class="quick-action-btn outline" id="btnAshaCallAmbulance" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.4);">
+        <i class="fa-solid fa-truck-medical"></i>
+        <span>Call 108 Ambulance</span>
+      </button>
+
+      <!-- Frontline Station Location -->
+      <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px 12px; margin-top: 10px; font-size: 0.76rem;">
+        <div style="color: #10b981; font-weight: 700; display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
+          <i class="fa-solid fa-location-dot"></i> <span>Rampur Sub-Centre</span>
+        </div>
+        <div style="color: #94a3b8; font-size: 0.7rem;">Field Surveillance: Ward 12 (24 Households)</div>
+      </div>
+
+      <!-- Sign Out -->
+      <a href="index.html" class="quick-action-btn outline" style="margin-top: 8px; color: #9bb7c7; border-color: rgba(255,255,255,0.12); text-decoration: none;">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        <span>Sign Out</span>
+      </a>
+    </div>
+
+    <!-- Footer -->
+    <div class="sidebar-footer">
+      <div class="footer-title">SWASTHYA SENSE</div>
+      <div class="footer-sub">ASHA Field Assistant</div>
+      <div class="footer-motto">No Patient Lost in Follow-up.</div>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       MAIN CONTENT CONTAINER
+       ========================================================================= -->
+  <main class="main-content">
+
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <button class="mobile-toggle" id="mobileMenuBtnAsha" aria-label="Toggle Navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <span class="text-greeting">Field Operations: PHC Rampur Sub-Centre · Sector 4</span>
+        <div class="header-location-pill">
+          <i class="fa-solid fa-location-dot"></i>
+          <span>Ward 12, Rampur Cluster</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <!-- 5-Language Selector -->
+        <div class="language-dropdown-wrapper">
+          <i class="fa-solid fa-language lang-icon"></i>
+          <select id="ashaLangSelect" class="lang-select">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="mr">मराठी (Marathi)</option>
+            <option value="as">অসমীয়া (Assamese)</option>
+            <option value="bn">বাংলা (Bengali)</option>
+          </select>
+        </div>
+
+        <!-- 108 Emergency Shortcut -->
+        <button class="btn-emergency" onclick="alert('Calling 108 Emergency Ambulance Dispatch. Priority GPS Telemetry transmitted.')">
+          <i class="fa-solid fa-truck-medical"></i>
+          <span>108 Emergency</span>
+        </button>
+
+        <!-- Doctor Hotline Shortcut -->
+        <a href="tel:+919422011223" class="btn-caregiver-toggle" style="text-decoration: none;" title="Call Dr. Ananya Sharma">
+          <i class="fa-solid fa-phone"></i>
+          <span>Call Dr. Ananya</span>
+        </a>
+
+        <!-- Sign Out -->
+        <a href="index.html" class="btn-logout" title="Sign Out">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </a>
+      </div>
+    </header>
+
+    <!-- Scrollable Content Body -->
+    <div class="content-scroll">
+
+      <!-- =====================================================================
+           TAB 1: DAILY FIELD VISIT QUEUE
+           ===================================================================== -->
+      <section id="tab-field-queue" class="tab-pane active">
+
+        <!-- ASHA Hero Banner -->
+        <div class="hero-banner" style="background: linear-gradient(135deg, #0b222f 0%, #0d383a 100%);">
+          <div class="hero-content">
+            <div class="asha-pill"><i class="fa-solid fa-house-chimney-medical"></i> HOME VISITS & SURVEILLANCE ACTIVE</div>
+            <h1 class="hero-heading" style="margin-top: 8px;">
+              Namaste, <span class="highlight-name" id="ashaHeroName">Sunita Devi</span>
+            </h1>
+            <p class="hero-subtext">
+              You have <strong style="color: #38bdf8;">3 overdue follow-up visits</strong> and <strong style="color: #fca5a5;">1 clinical alert</strong> requiring home inspection today.
+            </p>
+            <div class="hero-cta-group">
+              <button class="btn-hero-action" style="background: #10b981;" id="btnAshaStartCheckin">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>+ Start Assisted Home Check-in</span>
+              </button>
+              <button class="btn-hero-secondary" id="btnAshaBroadcastReminders">
+                <i class="fa-solid fa-paper-plane"></i>
+                <span>Dispatch Dual SMS to All Due Households</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="hero-illustration">
+            <div class="pulse-ring">
+              <div class="ring-outer" style="border-color: rgba(16, 185, 129, 0.2);"></div>
+              <div class="ring-middle" style="border-color: rgba(16, 185, 129, 0.4);"></div>
+              <div class="ring-inner" style="background: rgba(16, 185, 129, 0.3);">
+                <i class="fa-solid fa-stethoscope pulse-icon" style="color: #10b981;"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 Frontline KPI Metric Cards -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 22px;">
+          <div class="asha-stat-card teal">
+            <span style="font-size: 0.76rem; color: #64748b; font-weight: 600;">Monitored Households</span>
+            <strong style="font-size: 1.6rem; color: var(--text-main);">24</strong>
+            <small style="font-size: 0.72rem; color: #64748b;">High-risk care programmes</small>
+          </div>
+
+          <div class="asha-stat-card amber">
+            <span style="font-size: 0.76rem; color: #64748b; font-weight: 600;">Today's Visits Due</span>
+            <strong style="font-size: 1.6rem; color: var(--brand-amber);" id="statVisitsDue">6</strong>
+            <small style="font-size: 0.72rem; color: #64748b;">Scheduled home checks</small>
+          </div>
+
+          <div class="asha-stat-card crimson">
+            <span style="font-size: 0.76rem; color: #64748b; font-weight: 600;">Overdue Follow-ups</span>
+            <strong style="font-size: 1.6rem; color: var(--brand-crimson);" id="statOverdueVisits">3</strong>
+            <small style="font-size: 0.72rem; color: #64748b;">Urgent contact required</small>
+          </div>
+
+          <div class="asha-stat-card purple">
+            <span style="font-size: 0.76rem; color: #64748b; font-weight: 600;">Clinical Rule Flags</span>
+            <strong style="font-size: 1.6rem; color: #8b5cf6;" id="statClinicalFlags">2</strong>
+            <small style="font-size: 0.72rem; color: #64748b;">Vitals exceeded threshold</small>
+          </div>
+
+          <div class="asha-stat-card emerald">
+            <span style="font-size: 0.76rem; color: #64748b; font-weight: 600;">Reminders Dispatched</span>
+            <strong style="font-size: 1.6rem; color: var(--brand-emerald);" id="statRemindersSent">18</strong>
+            <small style="font-size: 0.72rem; color: #64748b;">Patient + Guardian SMS/WA</small>
+          </div>
+        </div>
+
+        <!-- Attention Engine Banner -->
+        <div class="attention-engine-card" style="margin-bottom: 22px;">
+          <div class="attention-header">
+            <div>
+              <div class="attention-title"><i class="fa-solid fa-triangle-exclamation" style="color: var(--brand-crimson); margin-right: 6px;"></i> Frontline Attention Engine Surveillance</div>
+              <div class="attention-subtitle">Patients flagged by clinical delta rules or overdue thresholds requiring ASHA field action</div>
+            </div>
+            <span class="badge-demo-rules">EXPLAINABLE RULES</span>
+          </div>
+
+          <div class="clinical-disclaimer-box">
+            <i class="fa-solid fa-circle-info disclaimer-icon"></i>
+            <span>
+              ASHA workers verify measurements and provide support. Clinical diagnosis and treatment modifications are performed only by Dr. Ananya Sharma (Clinician).
+            </span>
+          </div>
+
+          <div class="alerts-stream" id="ashaAlertsStream">
+            <!-- Alert 1: Tanishka Sharma -->
+            <div class="alert-item-card alert-clinical" style="border-left: 4px solid var(--brand-crimson);">
+              <div class="alert-header-row">
+                <span class="alert-badge badge-crimson">CLINICAL ALERT: RULE CR-01</span>
+                <span class="alert-date">31 Oct 2026, 04:40 PM</span>
+              </div>
+              <div class="alert-title-text" style="font-weight: 700; color: #991b1b; font-size: 0.95rem; margin-top: 4px;">
+                Tanishka Sharma (SS-877041): Severe Hypertension Spike (142/92 mmHg)
+              </div>
+              <div class="alert-reason-text" style="font-size: 0.82rem; color: #475569; margin: 6px 0;">
+                <strong>Trigger:</strong> Systolic BP ≥ 140 mmHg (measured 142 mmHg) with reported symptom: <em>Dizziness</em>.
+                <br><strong>Primary Guardian:</strong> Rajesh Sharma (+91 98765 43210) · SMS Language: <em>Hindi</em>.
+              </div>
+              <div class="action-btn-row">
+                <button class="btn-asha-action" onclick="openAshaAssistedCheckin('SS-877041', 'Tanishka Sharma', 142, 92, 97)">
+                  <i class="fa-solid fa-notes-medical"></i> Record Assisted Check-in
+                </button>
+                <button class="btn-asha-secondary" onclick="openDualReminderModal('Tanishka Sharma', '+91 98765 43210', 'Rajesh Sharma', '+91 98765 43210', 'BP Follow-up Warning')">
+                  <i class="fa-solid fa-comment-sms"></i> Send Dual Reminder
+                </button>
+                <button class="btn-asha-danger" onclick="escalateToClinician('Tanishka Sharma', 'SS-877041', 'Severe HTN with dizziness')">
+                  <i class="fa-solid fa-share-nodes"></i> Escalate to Dr. Ananya
+                </button>
+              </div>
+            </div>
+
+            <!-- Alert 2: Ramesh Kumar -->
+            <div class="alert-item-card alert-change" style="border-left: 4px solid var(--brand-amber); margin-top: 10px;">
+              <div class="alert-header-row">
+                <span class="alert-badge badge-amber" style="background: #fef3c7; color: #92400e;">ADMINISTRATIVE OVERDUE: RULE AD-01</span>
+                <span class="alert-date">28 Oct 2026 (4 Days Overdue)</span>
+              </div>
+              <div class="alert-title-text" style="font-weight: 700; color: #92400e; font-size: 0.95rem; margin-top: 4px;">
+                Ramesh Kumar (SS-HYP-01): Post-CABG Follow-up Overdue
+              </div>
+              <div class="alert-reason-text" style="font-size: 0.82rem; color: #475569; margin: 6px 0;">
+                <strong>Trigger:</strong> Scheduled clinic review missed by 4 days. Patient did not attend PHC appointment.
+                <br><strong>Guardian:</strong> Sita Devi (+91 98111 22334) · Caregiver notified 2 days ago.
+              </div>
+              <div class="action-btn-row">
+                <button class="btn-asha-action" onclick="openAshaAssistedCheckin('SS-HYP-01', 'Ramesh Kumar', 130, 85, 96)">
+                  <i class="fa-solid fa-house-chimney"></i> Conduct Home Visit Check-in
+                </button>
+                <button class="btn-asha-secondary" onclick="recordContactAttempt('Ramesh Kumar', 'Home Visit Done')">
+                  <i class="fa-solid fa-check"></i> Mark Contacted
+                </button>
+                <button class="btn-asha-secondary" onclick="openDualReminderModal('Ramesh Kumar', '+91 98111 22334', 'Sita Devi', '+91 98111 22334', 'Overdue Follow-up Notice')">
+                  <i class="fa-solid fa-comment-sms"></i> Send Overdue SMS
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Today's Full Patient Field Queue -->
+        <div class="surface-card">
+          <div class="surface-card-header">
+            <div>
+              <h3 class="card-title">Ward 12 Monitored Patient Queue</h3>
+              <p class="card-sub">Patients categorized by follow-up priority and care programme</p>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn-asha-secondary" onclick="filterAshaQueue('all')">All (4)</button>
+              <button class="btn-asha-secondary" onclick="filterAshaQueue('urgent')">Urgent (2)</button>
+              <button class="btn-asha-secondary" onclick="filterAshaQueue('routine')">Routine (2)</button>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 14px;" id="ashaQueueList">
+
+            <!-- Card 1 -->
+            <div class="patient-field-card urgent" data-priority="urgent">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <strong style="font-size: 1rem; color: var(--text-main);">Tanishka Sharma</strong>
+                    <span class="asha-pill" style="background:#fee2e2; color:#b91c1c; border-color:#fca5a5;">High-Priority BP Alert</span>
+                    <span style="font-size: 0.74rem; color: #64748b;">ID: SS-877041</span>
+                  </div>
+                  <div style="font-size: 0.8rem; color: #475569; margin-top: 4px;">
+                    45-59 yrs · Chronic Hypertension & Post-PCI · Address: House 14-B, Lane 3, Rampur
+                  </div>
+                  <div style="font-size: 0.78rem; color: #64748b; margin-top: 2px;">
+                    <i class="fa-solid fa-user-shield" style="color: var(--brand-teal);"></i> Guardian: Rajesh Sharma (+91 98765 43210) · Prefers Hindi
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">Last BP Check:</span>
+                  <div style="font-weight: 700; color: var(--brand-crimson); font-size: 0.95rem;">142/92 mmHg</div>
+                </div>
+              </div>
+              <div class="action-btn-row">
+                <button class="btn-asha-action" onclick="openAshaAssistedCheckin('SS-877041', 'Tanishka Sharma', 142, 92, 97)">
+                  <i class="fa-solid fa-notes-medical"></i> Quick Vitals Check-in
+                </button>
+                <button class="btn-asha-secondary" onclick="openDualReminderModal('Tanishka Sharma', '+91 98765 43210', 'Rajesh Sharma', '+91 98765 43210', 'BP Check-in Due')">
+                  <i class="fa-solid fa-comment-sms"></i> Dual Reminder
+                </button>
+                <button class="btn-asha-danger" onclick="escalateToClinician('Tanishka Sharma', 'SS-877041', 'Severe HTN with dizziness')">
+                  <i class="fa-solid fa-share-nodes"></i> Refer to Dr. Ananya
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="patient-field-card overdue" data-priority="urgent">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <strong style="font-size: 1rem; color: var(--text-main);">Ramesh Kumar</strong>
+                    <span class="asha-pill" style="background:#fef3c7; color:#92400e; border-color:#fcd34d;">Overdue 4 Days</span>
+                    <span style="font-size: 0.74rem; color: #64748b;">ID: SS-HYP-01</span>
+                  </div>
+                  <div style="font-size: 0.8rem; color: #475569; margin-top: 4px;">
+                    58 yrs · Post-CABG Cardiac Recovery · Address: Plot 22, Old Bazaar, Rampur
+                  </div>
+                  <div style="font-size: 0.78rem; color: #64748b; margin-top: 2px;">
+                    <i class="fa-solid fa-user-shield" style="color: var(--brand-teal);"></i> Guardian: Sita Devi (+91 98111 22334) · Prefers Hindi
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">Due Date:</span>
+                  <div style="font-weight: 700; color: var(--brand-amber); font-size: 0.95rem;">28 Oct 2026</div>
+                </div>
+              </div>
+              <div class="action-btn-row">
+                <button class="btn-asha-action" onclick="openAshaAssistedCheckin('SS-HYP-01', 'Ramesh Kumar', 130, 85, 96)">
+                  <i class="fa-solid fa-notes-medical"></i> Home Vitals
+                </button>
+                <button class="btn-asha-secondary" onclick="recordContactAttempt('Ramesh Kumar', 'Home Visit Done')">
+                  <i class="fa-solid fa-check"></i> Record Contact Attempt
+                </button>
+                <button class="btn-asha-secondary" onclick="openDualReminderModal('Ramesh Kumar', '+91 98111 22334', 'Sita Devi', '+91 98111 22334', 'Missed Follow-up')">
+                  <i class="fa-solid fa-comment-sms"></i> Dual Reminder
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="patient-field-card routine" data-priority="routine">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <strong style="font-size: 1rem; color: var(--text-main);">Meena Bai</strong>
+                    <span class="asha-pill" style="background:#e0f2fe; color:#0369a1; border-color:#7dd3fc;">Maternal ANC 3rd Trimester</span>
+                    <span style="font-size: 0.74rem; color: #64748b;">ID: SS-ANC-03</span>
+                  </div>
+                  <div style="font-size: 0.8rem; color: #475569; margin-top: 4px;">
+                    27 yrs · High-Risk Maternal ANC · Address: Gali 4, Near Primary School
+                  </div>
+                  <div style="font-size: 0.78rem; color: #64748b; margin-top: 2px;">
+                    <i class="fa-solid fa-user-shield" style="color: var(--brand-teal);"></i> Guardian: Suresh Bai (+91 97234 55667)
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">Next ANC Visit:</span>
+                  <div style="font-weight: 700; color: var(--brand-emerald); font-size: 0.95rem;">03 Nov 2026</div>
+                </div>
+              </div>
+              <div class="action-btn-row">
+                <button class="btn-asha-action" onclick="openAshaAssistedCheckin('SS-ANC-03', 'Meena Bai', 122, 78, 98)">
+                  <i class="fa-solid fa-baby"></i> Record ANC Vitals
+                </button>
+                <button class="btn-asha-secondary" onclick="openDualReminderModal('Meena Bai', '+91 97234 55667', 'Suresh Bai', '+91 97234 55667', 'Routine ANC Checkup')">
+                  <i class="fa-solid fa-comment-sms"></i> ANC Reminder
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="patient-field-card routine" data-priority="routine">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <strong style="font-size: 1rem; color: var(--text-main);">Vikram Singh</strong>
+                    <span class="asha-pill" style="background:#f1f5f9; color:#475569; border-color:#cbd5e1;">NCD Diabetes Care</span>
+                    <span style="font-size: 0.74rem; color: #64748b;">ID: SS-DIA-08</span>
+                  </div>
+                  <div style="font-size: 0.8rem; color: #475569; margin-top: 4px;">
+                    62 yrs · Type-2 Diabetes & Neuropathy · Address: Main Road, Rampur
+                  </div>
+                  <div style="font-size: 0.78rem; color: #64748b; margin-top: 2px;">
+                    <i class="fa-solid fa-user-shield" style="color: var(--brand-teal);"></i> Guardian: Amit Singh (+91 94120 77889)
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <span style="font-size: 0.72rem; color: #94a3b8;">Last Sugar:</span>
+                  <div style="font-weight: 700; color: #334155; font-size: 0.95rem;">158 mg/dL</div>
+                </div>
+              </div>
+              <div class="action-btn-row">
+                <button class="btn-asha-action" onclick="openAshaAssistedCheckin('SS-DIA-08', 'Vikram Singh', 128, 82, 97)">
+                  <i class="fa-solid fa-droplet"></i> Check Sugar & Vitals
+                </button>
+                <button class="btn-asha-secondary" onclick="openDualReminderModal('Vikram Singh', '+91 94120 77889', 'Amit Singh', '+91 94120 77889', 'Medication Refill')">
+                  <i class="fa-solid fa-comment-sms"></i> Refill Reminder
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- =====================================================================
+           TAB 2: RAPID ASSISTED CHECK-IN TOOL
+           ===================================================================== -->
+      <section id="tab-rapid-checkin" class="tab-pane">
+        <div class="page-header-box">
+          <div>
+            <h2 class="page-title">Frontline Assisted Patient Check-in (Module C-6)</h2>
+            <p class="page-subtitle">Record home visit measurements directly into the Attention Engine with verified ASHA signature</p>
+          </div>
+          <span class="asha-pill" style="font-size: 0.82rem;"><i class="fa-solid fa-badge-check"></i> ASHA Verified Signature</span>
+        </div>
+
+        <form id="ashaCheckinForm" class="surface-card">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+            <div>
+              <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-main);">Select Monitored Patient</label>
+              <select id="ashaPatientSelect" class="form-input" style="width: 100%; padding: 10px; border: 1px solid var(--border-light); border-radius: 6px; margin-top: 4px;">
+                <option value="SS-877041">Tanishka Sharma (SS-877041) · HTN / Post-PCI</option>
+                <option value="SS-HYP-01">Ramesh Kumar (SS-HYP-01) · Post-CABG</option>
+                <option value="SS-ANC-03">Meena Bai (SS-ANC-03) · High-Risk Maternal ANC</option>
+                <option value="SS-DIA-08">Vikram Singh (SS-DIA-08) · Type-2 Diabetes</option>
+              </select>
+            </div>
+
+            <div>
+              <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-main);">Visit Location / Context</label>
+              <select id="ashaVisitContext" class="form-input" style="width: 100%; padding: 10px; border: 1px solid var(--border-light); border-radius: 6px; margin-top: 4px;">
+                <option value="Home Doorstep Visit">Doorstep Home Visit (Routine/Overdue)</option>
+                <option value="PHC Sub-Centre Walk-in">PHC Sub-Centre Walk-in</option>
+                <option value="Village Health Sanitation Day (VHND)">Village Health Sanitation Day (VHND)</option>
+                <option value="Emergency Distress Call">Emergency Distress Call</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Measurements Grid -->
+          <h4 style="font-size: 0.9rem; font-weight: 700; color: var(--text-main); margin-bottom: 10px;">Field Vitals Taken by ASHA Kit</h4>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 18px;">
+            <div>
+              <label style="font-size: 0.8rem; font-weight: 600;">Systolic BP (mmHg)</label>
+              <input type="number" id="ashaSysBP" class="form-input" placeholder="e.g. 138" value="138" min="70" max="250" style="width: 100%; padding: 8px; border: 1px solid var(--border-light); border-radius: 6px;">
+              <small style="color: #64748b; font-size: 0.72rem;">CR-01 triggers if ≥ 140</small>
+            </div>
+
+            <div>
+              <label style="font-size: 0.8rem; font-weight: 600;">Diastolic BP (mmHg)</label>
+              <input type="number" id="ashaDiaBP" class="form-input" placeholder="e.g. 88" value="88" min="40" max="150" style="width: 100%; padding: 8px; border: 1px solid var(--border-light); border-radius: 6px;">
+              <small style="color: #64748b; font-size: 0.72rem;">Normal: 60 - 80</small>
+            </div>
+
+            <div>
+              <label style="font-size: 0.8rem; font-weight: 600;">SpO2 Pulse Oximeter (%)</label>
+              <input type="number" id="ashaSpO2" class="form-input" placeholder="e.g. 97" value="97" min="60" max="100" style="width: 100%; padding: 8px; border: 1px solid var(--border-light); border-radius: 6px;">
+              <small style="color: #64748b; font-size: 0.72rem;">CR-02 triggers if &lt; 92%</small>
+            </div>
+
+            <div>
+              <label style="font-size: 0.8rem; font-weight: 600;">Pulse Rate (bpm)</label>
+              <input type="number" id="ashaPulse" class="form-input" placeholder="e.g. 78" value="78" min="40" max="200" style="width: 100%; padding: 8px; border: 1px solid var(--border-light); border-radius: 6px;">
+              <small style="color: #64748b; font-size: 0.72rem;">Normal: 60 - 100 bpm</small>
+            </div>
+
+            <div>
+              <label style="font-size: 0.8rem; font-weight: 600;">Blood Glucose (mg/dL)</label>
+              <input type="number" id="ashaSugar" class="form-input" placeholder="e.g. 115" value="115" min="40" max="500" style="width: 100%; padding: 8px; border: 1px solid var(--border-light); border-radius: 6px;">
+              <small style="color: #64748b; font-size: 0.72rem;">Random glucometer strip</small>
+            </div>
+
+            <div>
+              <label style="font-size: 0.8rem; font-weight: 600;">Temperature (°F)</label>
+              <input type="number" step="0.1" id="ashaTemp" class="form-input" placeholder="e.g. 98.4" value="98.4" min="95" max="106" style="width: 100%; padding: 8px; border: 1px solid var(--border-light); border-radius: 6px;">
+              <small style="color: #64748b; font-size: 0.72rem;">Normal: 98.6°F</small>
+            </div>
+          </div>
+
+          <!-- Observed Symptoms -->
+          <h4 style="font-size: 0.9rem; font-weight: 700; color: var(--text-main); margin-bottom: 10px;">Symptoms Observed During Visit</h4>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 16px;">
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.84rem; background: #f8fafc; padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-light); cursor: pointer;">
+              <input type="checkbox" name="ashaSymptoms" value="chest_pain" id="symChest"> <strong>Chest Pain / Tightness</strong>
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.84rem; background: #f8fafc; padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-light); cursor: pointer;">
+              <input type="checkbox" name="ashaSymptoms" value="breathlessness" id="symBreath"> <strong>Shortness of Breath</strong>
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.84rem; background: #f8fafc; padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-light); cursor: pointer;">
+              <input type="checkbox" name="ashaSymptoms" value="dizziness" id="symDiz"> <strong>Dizziness / Fainting</strong>
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.84rem; background: #f8fafc; padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-light); cursor: pointer;">
+              <input type="checkbox" name="ashaSymptoms" value="edema" id="symEdema"> <strong>Swelling in Feet / Edema</strong>
+            </label>
+          </div>
+
+          <!-- ASHA Field Notes -->
+          <div style="margin-bottom: 18px;">
+            <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-main);">ASHA Observation Notes (Visible to Doctor)</label>
+            <textarea id="ashaNotes" rows="3" class="form-input" placeholder="Patient reports feeling tired. Medicines taken in the morning. Advised low salt diet and scheduled follow-up..." style="width: 100%; padding: 10px; border: 1px solid var(--border-light); border-radius: 6px; margin-top: 4px; font-size: 0.85rem;"></textarea>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 12px;">
+            <button type="button" class="btn-asha-secondary" onclick="prefillHighRiskAshaDemo()">
+              <i class="fa-solid fa-vial"></i> Prefill High-Risk Trigger (BP 162/98)
+            </button>
+            <button type="submit" class="btn-asha-action" style="padding: 10px 24px; font-size: 0.88rem;">
+              <i class="fa-solid fa-floppy-disk"></i> Save & Evaluate Attention Engine
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- =====================================================================
+           TAB 3: DUAL REMINDERS (PATIENT + GUARDIAN)
+           ===================================================================== -->
+      <section id="tab-dual-reminders" class="tab-pane">
+        <div class="page-header-box">
+          <div>
+            <h2 class="page-title">Dual Patient & Guardian Reminder Dispatcher (Module K)</h2>
+            <p class="page-subtitle">Simultaneous automated SMS & WhatsApp notification dispatched in regional language to both patient and family caregiver</p>
+          </div>
+          <span class="asha-pill"><i class="fa-solid fa-users"></i> Dual Recipient Active</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 20px;">
+          <!-- Dispatch Form -->
+          <div class="surface-card">
+            <h3 class="card-title" style="margin-bottom: 12px;">Compose Dual Follow-up Reminder</h3>
+
+            <div style="margin-bottom: 14px;">
+              <label style="font-size: 0.8rem; font-weight: 600;">Select Household</label>
+              <select id="dualPatientSelect" class="form-input" style="width: 100%; padding: 8px; border: 1px solid var(--border-light); border-radius: 6px;" onchange="updateDualReminderPreview()">
+                <option value="tanishka">Tanishka Sharma (Guardian: Rajesh Sharma · +91 98765 43210)</option>
+                <option value="ramesh">Ramesh Kumar (Guardian: Sita Devi · +91 98111 22334)</option>
+                <option value="meena">Meena Bai (Guardian: Suresh Bai · +91 97234 55667)</option>
+                <option value="vikram">Vikram Singh (Guardian: Amit Singh · +91 94120 77889)</option>
+              </select>
+            </div>
+
+            <div style="margin-bottom: 14px;">
+              <label style="font-size: 0.8rem; font-weight: 600;">Message Template Category</label>
+              <select id="dualTemplateSelect" class="form-input" style="width: 100%; padding: 8px; border: 1px solid var(--border-light); border-radius: 6px;" onchange="updateDualReminderPreview()">
+                <option value="routine_due">Routine Follow-up Due (Tomorrow at PHC)</option>
+                <option value="overdue_urgent">URGENT: Overdue Clinic Follow-up Notice</option>
+                <option value="bp_warning">Clinical Warning: High BP Check-in Required</option>
+                <option value="med_refill">Medication Refill & Compliance Alert</option>
+              </select>
+            </div>
+
+            <div style="margin-bottom: 14px;">
+              <label style="font-size: 0.8rem; font-weight: 600;">Notification Language</label>
+              <select id="dualLangSelect" class="form-input" style="width: 100%; padding: 8px; border: 1px solid var(--border-light); border-radius: 6px;" onchange="updateDualReminderPreview()">
+                <option value="hi">🇮🇳 हिन्दी (Hindi)</option>
+                <option value="en">🇬🇧 English</option>
+                <option value="mr">🇮🇳 मराठी (Marathi)</option>
+                <option value="bn">🇮🇳 বাংলা (Bengali)</option>
+                <option value="as">🇮🇳 অসমীয়া (Assamese)</option>
+              </select>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+              <button class="btn-asha-action" style="flex: 1;" onclick="dispatchDualReminder('SMS')">
+                <i class="fa-solid fa-comment-sms"></i> Dispatch Dual SMS
+              </button>
+              <button class="btn-asha-action" style="flex: 1; background: #25D366;" onclick="dispatchDualReminder('WhatsApp')">
+                <i class="fa-brands fa-whatsapp"></i> Dispatch WhatsApp
+              </button>
+            </div>
+          </div>
+
+          <!-- Live Preview Card -->
+          <div class="surface-card">
+            <h3 class="card-title" style="margin-bottom: 12px;">Live Multi-Channel Dual Preview</h3>
+
+            <div style="background: #f8fafc; border: 1px solid var(--border-light); border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+              <div style="font-size: 0.74rem; font-weight: 700; color: #0284c7; display: flex; align-items: center; gap: 6px;">
+                <i class="fa-solid fa-mobile-screen"></i> 1. PATIENT SMS (Tanishka Sharma)
+              </div>
+              <div id="previewPatientMsg" style="font-size: 0.84rem; color: #334155; margin-top: 6px; line-height: 1.4;">
+                Loading template...
+              </div>
+            </div>
+
+            <div style="background: #fdf4ff; border: 1px solid #f0abfc; border-radius: 8px; padding: 12px;">
+              <div style="font-size: 0.74rem; font-weight: 700; color: #9333ea; display: flex; align-items: center; gap: 6px;">
+                <i class="fa-solid fa-shield-heart"></i> 2. GUARDIAN SMS (Rajesh Sharma - Father)
+              </div>
+              <div id="previewGuardianMsg" style="font-size: 0.84rem; color: #334155; margin-top: 6px; line-height: 1.4;">
+                Loading template...
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dispatched Log -->
+        <div class="surface-card" style="margin-top: 20px;">
+          <div class="surface-card-header">
+            <h3 class="card-title">Dual Reminder Transmission Log</h3>
+            <span class="asha-pill">Verified Delivery</span>
+          </div>
+          <div id="dualReminderLog" style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px;">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 4: ESCALATIONS & REFERRALS
+           ===================================================================== -->
+      <section id="tab-clinical-referrals" class="tab-pane">
+        <div class="page-header-box">
+          <div>
+            <h2 class="page-title">Closed-Loop Referrals to Clinician (Module H)</h2>
+            <p class="page-subtitle">Track cases escalated by frontline workers to Dr. Ananya Sharma with status verification</p>
+          </div>
+          <button class="btn-asha-action" onclick="openReferralModal()">
+            <i class="fa-solid fa-share-nodes"></i> + Create Clinician Referral
+          </button>
+        </div>
+
+        <div class="surface-card">
+          <div style="display: flex; flex-direction: column; gap: 12px;" id="referralCardsContainer">
+            <!-- Referral 1 -->
+            <div style="background: #f8fafc; border: 1px solid var(--border-light); border-left: 4px solid var(--brand-crimson); border-radius: 8px; padding: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 700; color: var(--text-main); font-size: 0.95rem;">REF-2026-081 · Tanishka Sharma (SS-877041)</span>
+                <span class="asha-pill" style="background:#fef3c7; color:#92400e; border-color:#fcd34d;">Pending Doctor Review</span>
+              </div>
+              <div style="font-size: 0.82rem; color: #475569; margin: 6px 0;">
+                <strong>Reason:</strong> Elevated Systolic BP 142 mmHg with recurrent lightheadedness. Patient reported missing morning ACE-inhibitor dose.
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.74rem; color: #64748b; margin-top: 8px;">
+                <span><strong>Assigned Clinician:</strong> Dr. Ananya Sharma (Cardiology)</span>
+                <span>Escalated by Sunita Devi on 31 Oct 2026, 04:50 PM</span>
+              </div>
+            </div>
+
+            <!-- Referral 2 -->
+            <div style="background: #f8fafc; border: 1px solid var(--border-light); border-left: 4px solid var(--brand-emerald); border-radius: 8px; padding: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 700; color: var(--text-main); font-size: 0.95rem;">REF-2026-079 · Ramesh Kumar (SS-HYP-01)</span>
+                <span class="asha-pill" style="background:#e0f2fe; color:#0369a1; border-color:#7dd3fc;">Reviewed & Teleconsult Scheduled</span>
+              </div>
+              <div style="font-size: 0.82rem; color: #475569; margin: 6px 0;">
+                <strong>Reason:</strong> Overdue post-CABG surgical wound inspection. Patient experienced mild breathlessness on exertion.
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.74rem; color: #64748b; margin-top: 8px;">
+                <span><strong>Clinician Outcome:</strong> Teleconsultation scheduled for 02 Nov 2026 at 11:00 AM</span>
+                <span>Closed by Dr. Ananya Sharma</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 5: PHC & NEARBY FACILITIES
+           ===================================================================== -->
+      <section id="tab-nearby-facilities" class="tab-pane">
+        <div class="page-header-box">
+          <div>
+            <h2 class="page-title">Frontline Emergency & Facility Directory</h2>
+            <p class="page-subtitle">Immediate hotline numbers and designated referral health centers for Ward 12</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          <!-- Primary Health Centers -->
+          <div class="surface-card">
+            <h3 class="card-title" style="margin-bottom: 14px;">Government Health Centers</h3>
+
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <div class="facility-row-item">
+                <div>
+                  <strong style="font-size: 0.9rem; color: var(--text-main);">Primary Health Centre (PHC) Rampur</strong>
+                  <div style="font-size: 0.78rem; color: #64748b;">Distance: 1.2 km · MO: Dr. Vikram Rao</div>
+                  <div style="font-size: 0.75rem; color: var(--brand-teal);"><i class="fa-solid fa-phone"></i> +91 94220 55112</div>
+                </div>
+                <a href="tel:+919422055112" class="btn-asha-action"><i class="fa-solid fa-phone"></i> Call PHC</a>
+              </div>
+
+              <div class="facility-row-item">
+                <div>
+                  <strong style="font-size: 0.9rem; color: var(--text-main);">Community Health Centre (CHC) Block B</strong>
+                  <div style="font-size: 0.78rem; color: #64748b;">Distance: 4.1 km · 24x7 Maternity & Emergency</div>
+                  <div style="font-size: 0.75rem; color: var(--brand-teal);"><i class="fa-solid fa-phone"></i> +91 98230 44991</div>
+                </div>
+                <a href="tel:+919823044991" class="btn-asha-action"><i class="fa-solid fa-phone"></i> Call CHC</a>
+              </div>
+
+              <div class="facility-row-item">
+                <div>
+                  <strong style="font-size: 0.9rem; color: var(--text-main);">District Civil Hospital & ICU</strong>
+                  <div style="font-size: 0.78rem; color: #64748b;">Distance: 8.5 km · In-charge: Dr. Ananya Sharma</div>
+                  <div style="font-size: 0.75rem; color: var(--brand-teal);"><i class="fa-solid fa-phone"></i> +91 94220 11223</div>
+                </div>
+                <a href="tel:+919422011223" class="btn-asha-action"><i class="fa-solid fa-phone"></i> Call Hospital</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Emergency Hotlines -->
+          <div class="surface-card">
+            <h3 class="card-title" style="margin-bottom: 14px;">National Healthcare Emergency Hotlines</h3>
+
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <div class="facility-row-item" style="border-left: 4px solid var(--brand-crimson);">
+                <div>
+                  <strong style="color: var(--brand-crimson); font-size: 1rem;">108 - Emergency Medical & Ambulance</strong>
+                  <div style="font-size: 0.78rem; color: #64748b;">Free 24x7 Govt. Ambulance Service</div>
+                </div>
+                <button class="btn-asha-danger" onclick="alert('Connecting to 108 Ambulance Dispatch...')"><i class="fa-solid fa-truck-medical"></i> Dial 108</button>
+              </div>
+
+              <div class="facility-row-item" style="border-left: 4px solid #f59e0b;">
+                <div>
+                  <strong style="color: #d97706; font-size: 1rem;">102 - Free Janani Shishu Express (Pregnant Women)</strong>
+                  <div style="font-size: 0.78rem; color: #64748b;">Maternal ANC & Infant Transport</div>
+                </div>
+                <button class="btn-asha-secondary" onclick="alert('Connecting to 102 Janani Shishu Express...')"><i class="fa-solid fa-baby"></i> Dial 102</button>
+              </div>
+
+              <div class="facility-row-item" style="border-left: 4px solid #10b981;">
+                <div>
+                  <strong style="color: #059669; font-size: 1rem;">104 - Telemedicine Health Helpline</strong>
+                  <div style="font-size: 0.78rem; color: #64748b;">Doctor Consultation & Health Information</div>
+                </div>
+                <button class="btn-asha-action" style="background:#10b981;" onclick="alert('Connecting to 104 Health Advice Line...')"><i class="fa-solid fa-headset"></i> Dial 104</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="ashaToastContainer"></div>
+
+<!-- ASHA Portal Interactive Logic -->
+<script>
+  // Navigation Tabs
+  document.querySelectorAll('.sidebar .nav-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tabId = btn.getAttribute('data-tab');
+      if (!tabId) return;
+      document.querySelectorAll('.sidebar .nav-item').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      const target = document.getElementById('tab-' + tabId);
+      if (target) target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  // Mobile Menu Toggle
+  const mobBtn = document.getElementById('mobileMenuBtnAsha');
+  const sidebarEl = document.querySelector('.sidebar');
+  mobBtn?.addEventListener('click', () => sidebarEl?.classList.toggle('mobile-open'));
+
+  // Toast Helper
+  function showAshaToast(msg, isSuccess = true) {
+    const container = document.getElementById('ashaToastContainer');
+    if (!container) return;
+    const t = document.createElement('div');
+    t.className = 'custom-toast';
+    t.style.cssText = "background: " + (isSuccess ? "#064e3b" : "#7f1d1d") + "; color: #fff; padding: 12px 18px; border-radius: 8px; font-size: 0.84rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2); margin-top: 8px; display: flex; align-items: center; gap: 8px;";
+    t.innerHTML = '<i class="fa-solid ' + (isSuccess ? "fa-circle-check" : "fa-circle-exclamation") + '"></i> ' + msg;
+    container.appendChild(t);
+    setTimeout(() => t.remove(), 4000);
+  }
+
+  // Quick Action triggers
+  document.getElementById('btnAshaQuickCheckin')?.addEventListener('click', () => {
+    document.querySelector('.sidebar .nav-item[data-tab="rapid-checkin"]')?.click();
+  });
+  document.getElementById('btnAshaStartCheckin')?.addEventListener('click', () => {
+    document.querySelector('.sidebar .nav-item[data-tab="rapid-checkin"]')?.click();
+  });
+  document.getElementById('btnAshaBroadcastReminders')?.addEventListener('click', () => {
+    document.querySelector('.sidebar .nav-item[data-tab="dual-reminders"]')?.click();
+  });
+  document.getElementById('btnAshaCallAmbulance')?.addEventListener('click', () => {
+    alert("Emergency 108 Ambulance Call Initiated. Dispatch coordinates shared with Rampur Sub-Centre.");
+  });
+
+  // Filter Queue
+  function filterAshaQueue(type) {
+    const cards = document.querySelectorAll('#ashaQueueList .patient-field-card');
+    cards.forEach(c => {
+      if (type === 'all') c.style.display = 'flex';
+      else if (type === 'urgent') c.style.display = c.dataset.priority === 'urgent' ? 'flex' : 'none';
+      else if (type === 'routine') c.style.display = c.dataset.priority === 'routine' ? 'flex' : 'none';
+    });
+  }
+
+  // Open Check-in Pre-filled
+  function openAshaAssistedCheckin(id, name, sys, dia, spo2) {
+    document.querySelector('.sidebar .nav-item[data-tab="rapid-checkin"]')?.click();
+    const sel = document.getElementById('ashaPatientSelect');
+    if (sel) sel.value = id;
+    document.getElementById('ashaSysBP').value = sys;
+    document.getElementById('ashaDiaBP').value = dia;
+    document.getElementById('ashaSpO2').value = spo2;
+    showAshaToast("Ready to record assisted check-in for " + name);
+  }
+
+  function prefillHighRiskAshaDemo() {
+    document.getElementById('ashaSysBP').value = 162;
+    document.getElementById('ashaDiaBP').value = 98;
+    document.getElementById('ashaSpO2').value = 91;
+    document.getElementById('symChest').checked = true;
+    document.getElementById('symDiz').checked = true;
+    document.getElementById('ashaNotes').value = "Patient experienced sudden tight chest pain during morning walk. BP spike observed on digital sphygmomanometer. Immediate clinical review advised.";
+    showAshaToast("High-risk clinical demo vitals pre-filled (BP 162/98, SpO2 91%)");
+  }
+
+  // Submit Check-in
+  document.getElementById('ashaCheckinForm')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const sel = document.getElementById('ashaPatientSelect');
+    const patientName = sel.options[sel.selectedIndex].text;
+    const sys = parseInt(document.getElementById('ashaSysBP').value) || 120;
+    const dia = parseInt(document.getElementById('ashaDiaBP').value) || 80;
+    const spo2 = parseInt(document.getElementById('ashaSpO2').value) || 98;
+
+    let alertTriggered = false;
+    let ruleName = "";
+
+    if (sys >= 160 || dia >= 100) {
+      alertTriggered = true;
+      ruleName = "CR-01 Severe Hypertension (Systolic ≥ 160 mmHg)";
+    } else if (spo2 < 92) {
+      alertTriggered = true;
+      ruleName = "CR-02 Blood Oxygen Desaturation (SpO2 < 92%)";
+    }
+
+    // Save into localStorage so Doctor & Patient see it
+    try {
+      const stored = JSON.parse(localStorage.getItem('swasthyaSense_patient_tanishka_v2') || '{}');
+      if (stored.checkins) {
+        stored.checkins.push({
+          date: new Date().toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }),
+          time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+          sysBP: sys,
+          diaBP: dia,
+          spo2: spo2,
+          pulse: parseInt(document.getElementById('ashaPulse').value) || 78,
+          assistedByAsha: true,
+          ashaName: "Sunita Devi",
+          notes: document.getElementById('ashaNotes').value
+        });
+        localStorage.setItem('swasthyaSense_patient_tanishka_v2', JSON.stringify(stored));
+      }
+    } catch(err) { console.log(err); }
+
+    if (alertTriggered) {
+      alert("⚠️ ATTENTION ENGINE ALERT TRIGGERED!\n\nRule: " + ruleName + "\nPatient: " + patientName + "\nVitals: BP " + sys + "/" + dia + " mmHg, SpO2 " + spo2 + "%\n\nAn automatic referral flag has been dispatched to Dr. Ananya Sharma.");
+      showAshaToast("Check-in recorded! Clinical alert transmitted to Dr. Ananya Sharma", false);
+    } else {
+      showAshaToast("Assisted check-in verified and saved for " + patientName + "!", true);
+    }
+
+    document.querySelector('.sidebar .nav-item[data-tab="field-queue"]')?.click();
+  });
+
+  // Dual Reminder System
+  const REMINDER_TEMPLATES = {
+    routine_due: {
+      hi: {
+        patient: "नमस्ते, स्वास्थ्य सेंस अनुस्मारक: कल सुबह 10:00 बजे पीएचसी रामपुर में आपकी नियमित फॉलो-अप जांच निर्धारित है। कृपया अपने दवा के पर्चे साथ लाएं।",
+        guardian: "अभिभावक सूचना: आपके परिवार के सदस्य की कल सुबह पीएचसी रामपुर में डॉक्टर फॉलो-अप जांच निर्धारित है। कृपया समय पर उपस्थिति सुनिश्चित करें।"
+      },
+      en: {
+        patient: "Hello, SWASTHYA SENSE reminder: Your routine doctor follow-up is scheduled tomorrow at 10:00 AM at PHC Rampur. Please bring your current medication strips.",
+        guardian: "Caregiver Notice: Your family member has a scheduled clinical follow-up tomorrow at PHC Rampur. Please ensure timely consultation."
+      },
+      mr: {
+        patient: "नमस्कार, स्वास्थ्य सेन्स सूचना: उद्या सकाळी १०:०० वाजता पीएचसी रामपूर येथे तुमची तपासणी नियोजित आहे. कृपया औषधांची यादी सोबत आणावी.",
+        guardian: "पालक सूचना: उद्या सकाळी पीएचसी रामपूर येथे तुमच्या कुटुंबातील सदस्याची वैद्यकीय तपासणी आहे. कृपया उपस्थिती सुनिश्चित करावी."
+      },
+      bn: {
+        patient: "নমস্কার, স্বাস্থ্য সেন্স অনুস্মারক: আগামীকাল সকাল ১০:০০ টায় পিএইচসি রামপুরে আপনার নিয়মিত স্বাস্থ্য ফলো-আপ নির্ধারিত আছে।",
+        guardian: "অভিভাবক বিজ্ঞপ্তি: আপনার পরিবারের সদস্যের আগামীকাল পিএইচসি রামপুরে ফলো-আপ পরামর্শ রয়েছে। সময়মতো উপস্থিতি নিশ্চিত করুন।"
+      },
+      as: {
+        patient: "নমস্কাৰ, স্বাস্থ্য চেন্স সোঁৱৰণী: কাইলৈ পুৱা ১০:০০ বজাত পিএইচচি ৰামপুৰত আপোনাৰ নিয়মীয়া স্বাস্থ্য পৰীক্ষা আছে।",
+        guardian: "অভিভাৱক জাননী: আপোনাৰ পৰিয়ালৰ সদস্যৰ কাইলৈ পিএইচচি ৰামপুৰত ফলো-আপ পৰীক্ষা আছে। অনুগ্ৰহ কৰি সময়মতে উপস্থিত থাকক।"
+      }
+    },
+    overdue_urgent: {
+      hi: {
+        patient: "⚠️ आवश्यक सूचना: आपकी अनुवर्ती (फॉलो-अप) जांच 4 दिनों से लंबित है। गंभीर जटिलताओं से बचने के लिए कृपया आशा कार्यकर्ता सुनीता देवी से मिलें या पीएचसी संपर्क करें।",
+        guardian: "⚠️ परिवार चेतावनी: आपके मरीज का जरूरी फॉलो-अप 4 दिनों से छूटा हुआ है। कृपया तत्काल निकटतम स्वास्थ्य केंद्र पर जांच सुनिश्चित करें।"
+      },
+      en: {
+        patient: "⚠️ URGENT HEALTH NOTICE: Your clinical follow-up is overdue by 4 days. Please visit PHC Rampur or contact ASHA Sunita Devi to prevent complications.",
+        guardian: "⚠️ CAREGIVER ALERT: Your family member's clinical follow-up is 4 days overdue. Please assist them in visiting the health center immediately."
+      },
+      mr: {
+        patient: "⚠️ तातडीची सूचना: आपली तपासणी ४ दिवसांपासून बाकी आहे. कृपया तात्काळ आशा कार्यकर्त्या सुनिता देवी किंवा पीएचसीशी संपर्क साधावा.",
+        guardian: "⚠️ पालक सतर्कता: आपल्या रुग्णाची वैद्यकीय तपासणी ४ दिवसांपासून प्रलंबित आहे. कृपया तात्काळ तपासणी करून घ्यावी."
+      },
+      bn: {
+        patient: "⚠️ জরুরি স্বাস্থ্য বিজ্ঞপ্তি: আপনার চিকিৎসা ফলো-আপ ৪ দিন ধরে বাকি রয়েছে। অবিলম্বে পিএইচসি বা আশা কর্মীর সাথে যোগাযোগ করুন।",
+        guardian: "⚠️ অভিভাবক সতর্কবার্তা: আপনার রোগীর গুরুত্বপূর্ণ ফলো-আপ ৪ দিন ধরে বাকি রয়েছে। অবিলম্বে নিকটস্থ স্বাস্থ্যকেন্দ্রে যান।"
+      },
+      as: {
+        patient: "⚠️ জৰুৰী স্বাস্থ্য জাননী: আপোনাৰ চিকিৎসা পৰীক্ষা ৪ দিন পলম হৈছে। জটিলতা ৰোধ কৰিবলৈ অনুগ্ৰহ কৰি আশা কৰ্মীৰ সৈতে যোগাযোগ কৰক।",
+        guardian: "⚠️ অভিভাৱক সতৰ্কবাৰ্তা: আপোনাৰ পৰিয়ালৰ সদস্যৰ গুৰুত্বপূৰ্ণ চিকিৎসা পলম হৈছে। অনুগ্ৰহ কৰি লগে লগে স্বাস্থ্য কেন্দ্ৰত উপস্থিত হওক।"
+      }
+    }
+  };
+
+  function updateDualReminderPreview() {
+    const tpl = document.getElementById('dualTemplateSelect').value;
+    const lang = document.getElementById('dualLangSelect').value;
+    const cat = REMINDER_TEMPLATES[tpl] || REMINDER_TEMPLATES['routine_due'];
+    const pack = cat[lang] || cat['en'];
+
+    document.getElementById('previewPatientMsg').textContent = pack.patient;
+    document.getElementById('previewGuardianMsg').textContent = pack.guardian;
+  }
+
+  function dispatchDualReminder(channel) {
+    const sel = document.getElementById('dualPatientSelect');
+    const patientText = sel.options[sel.selectedIndex].text;
+    const lang = document.getElementById('dualLangSelect').value.toUpperCase();
+
+    showAshaToast("Dual " + channel + " Reminder sent to " + patientText + " in " + lang + "!");
+
+    const log = document.getElementById('dualReminderLog');
+    if (log) {
+      const item = document.createElement('div');
+      item.style.cssText = "background: #f8fafc; border: 1px solid var(--border-light); padding: 10px 14px; border-radius: 6px; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center;";
+      item.innerHTML = '<div><strong>' + channel + ' Dispatched</strong> · ' + patientText + '<div style="font-size: 0.72rem; color: #64748b;">Simultaneous transmission to Patient Mobile & Primary Guardian</div></div><span class="asha-pill" style="background:#e0f2fe; color:#0369a1;"><i class="fa-solid fa-check-double"></i> Delivered</span>';
+      log.prepend(item);
+    }
+  }
+
+  function recordContactAttempt(name, type) {
+    showAshaToast("Contact attempt recorded: " + type + " for " + name);
+  }
+
+  function escalateToClinician(name, id, reason) {
+    const promptNotes = prompt("Escalating " + name + " (" + id + ") to Dr. Ananya Sharma.\nEnter additional clinical observations:", "High BP observed on home check-in. " + reason);
+    if (promptNotes !== null) {
+      alert("Clinical Referral REF-2026-085 created for Dr. Ananya Sharma!\nStatus: PENDING CLINICIAN REVIEW\nTelemetry synchronized with District Hospital.");
+      showAshaToast("Referral created for " + name + " -> Assigned to Dr. Ananya Sharma");
+    }
+  }
+
+  function openReferralModal() {
+    escalateToClinician("Tanishka Sharma", "SS-877041", "Frontline ASHA Home Visit Escalation");
+  }
+
+  function openDualReminderModal(pName, pPhone, gName, gPhone, reason) {
+    document.querySelector('.sidebar .nav-item[data-tab="dual-reminders"]')?.click();
+    showAshaToast("Dual reminder dispatcher opened for " + pName + " & Guardian " + gName);
+  }
+
+  // Restore logged-in name and language
+  const storedName = localStorage.getItem('swasthyaSense_userName');
+  if (storedName && storedName.trim()) {
+    const wName = storedName.trim();
+    const elName = document.getElementById('ashaWorkerName');
+    if (elName) elName.textContent = wName;
+    const elHero = document.getElementById('ashaHeroName');
+    if (elHero) elHero.textContent = wName;
+    const elAvatar = document.getElementById('ashaAvatar');
+    if (elAvatar) elAvatar.textContent = wName.split(' ').map(p => p[0]).join('').substring(0, 2).toUpperCase() || 'A';
+  }
+
+  const storedLang = localStorage.getItem('swasthyaSense_currentLang');
+  if (storedLang && ['en', 'hi', 'mr', 'as', 'bn'].includes(storedLang)) {
+    const sel = document.getElementById('dualLangSelect');
+    if (sel) sel.value = storedLang;
+  }
+
+  // Initial preview update
+  updateDualReminderPreview();
+</script>
+
+</body>
+</html>

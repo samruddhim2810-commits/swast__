@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWASTHYA SENSE | Doctor & Clinical Care Management</title>
+
+    <link rel="stylesheet" href="doctor-style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+<!-- ==========================================================================
+     SIDEBAR NAVIGATION
+     ========================================================================== -->
+<aside class="sidebar">
+
+    <div class="brand">
+        <div class="brand-mark">
+            <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+        <div>
+            <strong>SWASTHYA SENSE</strong>
+            <small id="brandTagline">No Patient Lost in Follow-up</small>
+        </div>
+    </div>
+
+    <!-- Active Doctor Mini Profile -->
+    <div class="doctor-mini">
+        <div class="avatar" id="sidebarInitials">DOC</div>
+        <div style="min-width:0;">
+            <b id="sidebarDoctorName">Dr. Ananya Sharma</b>
+            <small id="sidebarDoctorRole">Qualified Clinician</small>
+        </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <div class="nav-group-title">Clinical Operations</div>
+    <nav>
+        <button class="nav-link active" data-target="dashboard">
+            <i class="fa-solid fa-chart-pie nav-icon"></i>
+            <span data-i18n="nav_dashboard">Dashboard Overview</span>
+        </button>
+
+        <button class="nav-link" data-target="priority">
+            <i class="fa-solid fa-fire-flame-curved nav-icon" style="color:var(--orange);"></i>
+            <span data-i18n="nav_priority">Smart Priority Queue</span>
+            <i class="counter" id="priorityNavBadge">!</i>
+        </button>
+
+        <button class="nav-link" data-target="attention">
+            <i class="fa-solid fa-brain nav-icon" style="color:var(--red);"></i>
+            <span data-i18n="nav_attention">Attention Engine (USP)</span>
+            <i class="counter red" id="navAlertCount">0</i>
+        </button>
+
+        <button class="nav-link" data-target="patients">
+            <i class="fa-solid fa-hospital-user nav-icon"></i>
+            <span data-i18n="nav_patients">Patient Registry</span>
+        </button>
+
+        <button class="nav-link" data-target="checkins">
+            <i class="fa-solid fa-notes-medical nav-icon"></i>
+            <span data-i18n="nav_checkins">Patient Check-ins</span>
+        </button>
+
+        <button class="nav-link" data-target="followups">
+            <i class="fa-regular fa-calendar-check nav-icon"></i>
+            <span data-i18n="nav_followups">Follow-up Management</span>
+        </button>
+
+        <button class="nav-link" data-target="referrals">
+            <i class="fa-solid fa-share-nodes nav-icon"></i>
+            <span data-i18n="nav_referrals">Referrals & Escalations</span>
+        </button>
+
+        <button class="nav-link" data-target="reminders">
+            <i class="fa-solid fa-comment-sms nav-icon"></i>
+            <span data-i18n="nav_reminders">Reminders (SMS/WhatsApp)</span>
+        </button>
+    </nav>
+
+    <div class="nav-group-title" style="margin-top:12px;">Intelligence & System</div>
+    <nav>
+        <button class="nav-link" data-target="ai-assistant">
+            <i class="fa-solid fa-wand-magic-sparkles nav-icon" style="color:var(--aqua);"></i>
+            <span data-i18n="nav_ai">AI Support Assistant</span>
+        </button>
+
+        <button class="nav-link" data-target="rules-config">
+            <i class="fa-solid fa-sliders nav-icon"></i>
+            <span data-i18n="nav_rules">Rule Configuration</span>
+        </button>
+
+        <button class="nav-link" data-target="reports">
+            <i class="fa-solid fa-chart-column nav-icon"></i>
+            <span data-i18n="nav_reports">Reports & Analytics</span>
+        </button>
+
+        <button class="nav-link" data-target="audit">
+            <i class="fa-solid fa-shield-halved nav-icon"></i>
+            <span data-i18n="nav_audit">Audit Trail</span>
+        </button>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <!-- Clinical Facility Station Location -->
+        <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); padding: 10px 12px; border-radius: 8px; font-size: 0.78rem; margin-bottom: 8px;">
+            <div style="color: var(--aqua); font-weight: 700; display: flex; align-items: center; gap: 6px;">
+                <i class="fa-solid fa-hospital"></i> <span>District Civil Hospital</span>
+            </div>
+            <div style="color: #94a3b8; font-size: 0.7rem; margin-top: 2px;">Sector 4, Rampur · Triage & Cardiac Unit</div>
+        </div>
+
+        <a href="index.html" class="nav-link" style="color:#94a3b8; background:rgba(255,255,255,0.05); margin-bottom:6px;">
+            <i class="fa-solid fa-arrow-right-from-bracket nav-icon"></i>
+            <span>Sign Out</span>
+        </a>
+        <div class="secure-note">
+            <i class="fa-solid fa-lock"></i>
+            <span>Role-Based Access · Verified Clinician Session</span>
+        </div>
+    </div>
+
+</aside>
+
+
+<!-- ==========================================================================
+     MAIN CONTENT AREA
+     ========================================================================== -->
+<main class="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+        <div class="topbar-titles">
+            <div class="eyebrow" id="todayLabel">
+                <span id="todayText">Today:</span> <span id="todayDateStr" class="today"></span>
+            </div>
+            <h1 id="pageTitle">Dashboard Overview</h1>
+        </div>
+
+        <div class="top-actions">
+            <!-- 5-LANGUAGE SELECTOR (English, Hindi, Marathi, Assamese, Bengali) -->
+            <div class="lang-selector-wrapper">
+                <label><i class="fa-solid fa-language"></i> Lang:</label>
+                <select id="langSelect" class="lang-select">
+                    <option value="en">🇬🇧 English</option>
+                    <option value="hi">🇮🇳 हिन्दी (Hindi)</option>
+                    <option value="mr">🇮🇳 मराठी (Marathi)</option>
+                    <option value="as">🇮🇳 অসমীয়া (Assamese)</option>
+                    <option value="bn">🇮🇳 বাংলা (Bengali)</option>
+                </select>
+            </div>
+
+            <!-- Clinical Location Pill -->
+            <div class="role-badge-pill" style="background: rgba(14, 165, 233, 0.12); border-color: rgba(14, 165, 233, 0.3);">
+                <i class="fa-solid fa-location-dot" style="color: var(--aqua);"></i>
+                <span style="font-weight: 700; color: #fff;">District Civil Hospital, Pune</span>
+            </div>
+
+            <!-- Role Badge -->
+            <div class="role-badge-pill">
+                <i class="fa-solid fa-user-doctor"></i>
+                <span id="activeRoleBadge">Dr. Ananya Sharma · Clinician</span>
+                <select id="roleSelect" title="Switch Role Perspective" style="display:none;">
+                    <option value="clinician" selected>Role: Clinician (Doctor)</option>
+                    <option value="healthcare_worker">Role: Healthcare Worker (ASHA)</option>
+                    <option value="admin">Role: Administrator</option>
+                </select>
+            </div>
+
+            <button class="btn btn-outline" id="ruleInfoBtn">
+                <i class="fa-solid fa-circle-info"></i>
+                <span data-i18n="btn_rules_info">Rules Guide</span>
+            </button>
+
+            <button class="btn btn-primary" id="addPatientTop">
+                <i class="fa-solid fa-user-plus"></i>
+                <span data-i18n="btn_add_patient">+ Add Patient</span>
+            </button>
+
+            <button class="btn btn-primary" id="newCheckinBtn" style="background:var(--navy-light);">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span data-i18n="btn_new_checkin">+ Record Check-in</span>
+            </button>
+
+            <button class="btn btn-outline" id="logoutBtn" title="Sign Out">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </button>
+        </div>
+    </header>
+
+
+    <!-- ======================================================================
+         SECTION 1: DASHBOARD OVERVIEW
+         ====================================================================== -->
+    <section id="dashboard" class="section active">
+
+        <div class="welcome-row">
+            <div>
+                <h2>Welcome, <span id="doctorGreeting">Dr. Ananya Sharma</span></h2>
+                <p>Early warning surveillance active. Review high-priority overdue cases and flagged check-ins.</p>
+            </div>
+            <div class="live-pill">
+                <i></i> Attention Engine Surveillance Active
+            </div>
+        </div>
+
+        <!-- 6 KPI STAT CARDS -->
+        <div class="stat-grid">
+            <div class="stat-card teal">
+                <span data-i18n="kpi_total_patients">Total Patients</span>
+                <strong id="totalPatients">0</strong>
+                <small>Under active care programme</small>
+            </div>
+
+            <div class="stat-card blue">
+                <span data-i18n="kpi_today_appointments">Today's Due</span>
+                <strong id="todayAppointments">0</strong>
+                <small>Scheduled for today</small>
+            </div>
+
+            <div class="stat-card orange">
+                <span data-i18n="kpi_overdue">Overdue Follow-ups</span>
+                <strong id="overdueCount">0</strong>
+                <small>Priority contact required</small>
+            </div>
+
+            <div class="stat-card red">
+                <span data-i18n="kpi_clinical_alerts">Clinical Reviews</span>
+                <strong id="clinicalCount">0</strong>
+                <small>Vitals / symptoms flagged</small>
+            </div>
+        </div>
+
+        <div class="stat-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 20px;">
+            <div class="stat-card green">
+                <span data-i18n="kpi_completion_rate">Follow-up Completion</span>
+                <strong id="completionRate">0%</strong>
+                <div class="progress"><i id="completionBar" style="width:0%;"></i></div>
+                <small>Completed vs registered follow-ups</small>
+            </div>
+
+            <div class="stat-card purple">
+                <span data-i18n="kpi_open_referrals">Open Referrals</span>
+                <strong id="openReferrals">0</strong>
+                <small>Closed-loop tracking with district specialists</small>
+            </div>
+        </div>
+
+        <!-- AI DAILY BRIEF PANEL -->
+        <div class="panel ai-panel" style="margin-bottom:20px;">
+            <div class="ai-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> AI-POWERED CLINICAL SURVEILLANCE SUMMARY</div>
+            <h3>Daily Operations & Triage Brief</h3>
+            <p id="aiBrief">Loading clinical telemetry...</p>
+            <small><i class="fa-solid fa-shield-heart"></i> AI-Assisted Non-Diagnostic Summary. Patient source records remain verifiable.</small>
+        </div>
+
+        <!-- TWO PANELS: TODAY'S APPOINTMENTS & ATTENTION ENGINE QUICK QUEUE -->
+        <div class="grid-two">
+            <div class="panel">
+                <div class="panel-head">
+                    <div>
+                        <h3>Today's Due Follow-ups</h3>
+                        <p>Patients scheduled for evaluation today</p>
+                    </div>
+                    <button class="mini-btn" onclick="showSection('followups')">View All</button>
+                </div>
+                <div class="stack-list" id="appointmentList"></div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head">
+                    <div>
+                        <h3>Attention Engine Flagged Queue</h3>
+                        <p>Active administrative & clinical rules triggered</p>
+                    </div>
+                    <button class="mini-btn" onclick="showSection('attention')">Full Engine</button>
+                </div>
+                <div class="stack-list" id="attentionList"></div>
+            </div>
+        </div>
+
+        <!-- ACTIVE REFERRALS & CARE METRICS QUICK ROW -->
+        <div class="grid-two">
+            <div class="panel">
+                <div class="panel-head">
+                    <div>
+                        <h3>Open Specialist Referrals</h3>
+                        <p>Tracked referrals awaiting specialist consult</p>
+                    </div>
+                    <button class="mini-btn" onclick="showSection('referrals')">View Referrals</button>
+                </div>
+                <div class="stack-list" id="referralList"></div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head">
+                    <div>
+                        <h3>Surveillance Quality Metrics</h3>
+                        <p>Key performance indicators</p>
+                    </div>
+                    <button class="mini-btn" onclick="showSection('reports')">Full Reports</button>
+                </div>
+                <div class="metric-row">
+                    <span>Follow-up Completion Target:</span>
+                    <b id="analyticsCompletion">0%</b>
+                </div>
+                <div class="metric-row">
+                    <span>Active Overdue Backlog:</span>
+                    <b id="analyticsOverdue">0</b>
+                </div>
+                <div class="metric-row">
+                    <span>Pending Clinical Warnings:</span>
+                    <b id="analyticsReviews">0</b>
+                </div>
+                <div class="metric-row">
+                    <span>Closed Clinical Referrals:</span>
+                    <b id="analyticsReferrals">0</b>
+                </div>
+            </div>
+        </div>
+
+        <!-- RECENT SYSTEM ACTIVITY TIMELINE -->
+        <div class="panel">
+            <div class="panel-head">
+                <div>
+                    <h3>Real-Time Activity & Traceability</h3>
+                    <p>Recent events recorded in audit engine</p>
+                </div>
+                <button class="mini-btn" onclick="showSection('audit')">View Audit Trail</button>
+            </div>
+            <div class="timeline" id="timeline"></div>
+        </div>
+
+    </section>
+
+
+    <!-- ======================================================================
+         SECTION 2: SMART PRIORITY QUEUE
+         ====================================================================== -->
+    <section id="priority" class="section">
+
+        <div class="section-heading">
+            <div>
+                <h2 data-i18n="nav_priority">Smart Priority Queue</h2>
+                <p>Prioritises overdue patients by days elapsed and contact attempt count to prevent workflow loss.</p>
+            </div>
+            <div class="actions">
+                <button class="btn btn-outline" onclick="showSection('attention')">
+                    <i class="fa-solid fa-brain"></i> Attention Rules
+                </button>
+            </div>
+        </div>
+
+        <div class="stat-grid">
+            <div class="stat-card orange">
+                <span>Total In Queue</span>
+                <strong id="priorityTotal">0</strong>
+                <small>Overdue patients needing contact</small>
+            </div>
+
+            <div class="stat-card red">
+                <span>Max Days Overdue</span>
+                <strong id="priorityMaxDays">0 days</strong>
+                <small>Longest pending case</small>
+            </div>
+
+            <div class="stat-card green">
+                <span>Reviewed by Staff</span>
+                <strong id="priorityReviewed">0</strong>
+                <small>Triaged cases</small>
+            </div>
+
+            <div class="stat-card teal">
+                <span>Pending Outreach</span>
+                <strong id="priorityPending">0</strong>
+                <small>Requires immediate call/SMS</small>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <input type="text" id="prioritySearch" placeholder="Search patient name, ID, or mobile number...">
+            <div>
+                <label>Status Filter</label>
+                <select id="priorityFilter">
+                    <option value="all">All Cases in Queue</option>
+                    <option value="pending">Pending Outreach Only</option>
+                    <option value="reviewed">Reviewed Cases Only</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th data-i18n="table_patient">Patient</th>
+                        <th data-i18n="table_category">Category</th>
+                        <th data-i18n="table_followup">Due Date</th>
+                        <th>Overdue Days</th>
+                        <th>Contact Attempts</th>
+                        <th data-i18n="table_status">Queue Status</th>
+                        <th data-i18n="table_actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="priorityTableBody"></tbody>
+            </table>
+        </div>
+
+    </section>
+
+
+    <!-- ======================================================================
+         SECTION 3: ATTENTION ENGINE (PRIMARY USP)
+         ====================================================================== -->
+    <section id="attention" class="section">
+
+        <div class="section-heading">
+            <div>
+                <h2>Patient Attention Engine — Primary USP</h2>
+                <p>Evaluates submitted check-ins and appointments against clinician-approved rules with transparent explanations.</p>
+            </div>
+            <div class="live-pill">
+                <span class="badge red" style="margin-right:6px;">EXPLAINABLE AI</span>
+                <span data-i18n="badge_demo_rules">CLINICAL DEMO RULES</span>
+            </div>
+        </div>
+
+        <div class="notice">
+            <i class="fa-solid fa-triangle-exclamation" style="font-size:16px; color:var(--teal);"></i>
+            <div>
+                <b>Clinical Safety Notice:</b>
+                Administrative overdue status is not automatically treated as a medical emergency. The platform does not independently diagnose diseases or prescribe medication. Clinical decisions remain with qualified healthcare professionals.
+            </div>
+        </div>
+
+        <!-- ALERT CARDS GRID -->
+        <div class="alert-grid" id="fullAttentionList"></div>
+
+    </section>
+
+
+    <!-- ======================================================================
+         SECTION 4: PATIENT REGISTRY (MODULE B)
+         ====================================================================== -->
+    <section id="patients" class="section">
+
+        <div class="section-heading">
+            <div>
+                <h2 data-i18n="nav_patients">Patient Registry</h2>
+                <p>Register high-risk patients, maintain communication preferences, consent, and follow-up history.</p>
+            </div>
+            <button class="btn btn-primary" id="addPatientBtn">
+                <i class="fa-solid fa-user-plus"></i> <span data-i18n="btn_add_patient">+ Add Patient</span>
+            </button>
+        </div>
+
+        <div class="filter-bar">
+            <div style="flex:1;">
+                <label>Search Registry</label>
+                <input type="text" id="patientSearch" placeholder="Search by patient name, ID, or phone..." style="width:100%;">
+            </div>
+            <div>
+                <label>Care Programme</label>
+                <select id="patientCategoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="General">General</option>
+                    <option value="Pregnancy">Pregnancy</option>
+                    <option value="Chronic">Chronic</option>
+                    <option value="Post-illness">Post-illness</option>
+                </select>
+            </div>
+            <div>
+                <label>Follow-up Status</label>
+                <select id="patientStatusFilter">
+                    <option value="">All Statuses</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Missed">Missed</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th data-i18n="table_patient">Patient</th>
+                        <th data-i18n="table_age">Age</th>
+                        <th data-i18n="table_category">Category</th>
+                        <th data-i18n="table_followup">Next Follow-up</th>
+                        <th data-i18n="table_status">Status</th>
+                        <th data-i18n="table_actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="patientTable"></tbody>
+            </table>
+        </div>
+
+    </section>
+
+
+    <!-- ======================================================================
+         SECTION 5: PATIENT CHECK-INS (MODULE C)
+         ====================================================================== -->
+    <section id="checkins" class="section">
+
+        <div class="section-heading">
+            <div>
+                <h2 data-i18n="nav_checkins">Patient Health Check-ins</h2>
+                <p>Record symptoms, vitals, and compare measurements against previous baseline records.</p>
+            </div>
+            <button class="btn btn-primary" onclick="addCheckinModal()">
+                <i class="fa-solid fa-notes-medical"></i> <span data-i18n="btn_new_checkin">+ Record Check-in</span>
+            </button>
+        </div>
+
+        <div class="notice">
+            <i class="fa-solid fa-clipboard-check" style="font-size:16px; color:var(--teal);"></i>
+            <div>
+                <b>Data Integrity:</b> Patient-reported data is strictly distinguished from clinician-recorded data. Check-ins are evaluated automatically by the Patient Attention Engine.
+            </div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Patient / Source</th>
+                        <th>Patient-Reported Concern</th>
+                        <th>Vitals & Measurements</th>
+                        <th>Baseline Comparison</th>
+                        <th data-i18n="table_actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="checkinTable"></tbody>
+            </table>
+        </div>
+
+    </section>
+
+
+    <!-- ======================================================================
+         SECTION 6: FOLLOW-UP MANAGEMENT (MODULE D)
+         ====================================================================== -->
+    <section id="followups" class="section">
+
+        <div class="section-heading">
+            <div>
+                <h2 data-i18n="nav_followups">Follow-up Management</h2>
+                <p>Track scheduled dates, log contact attempts, reschedule appointments, and avoid lost patients.</p>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="addPatientModal()">
+                    <i class="fa-regular fa-calendar-plus"></i> Schedule Follow-up
+                </button>
+            </div>
+        </div>
+
+        <div class="filter-bar">
+            <div>
+                <label>Filter By Status</label>
+                <select id="followupFilter">
+                    <option value="">All Follow-ups</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Missed">Missed</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th data-i18n="table_patient">Patient</th>
+                        <th>ID</th>
+                        <th data-i18n="table_followup">Due Date</th>
+                        <th data-i18n="table_status">Status</th>
+                        <th>Contact History</th>
+                        <th data-i18n="table_actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="followupTable"></tbody>
+            </table>
+        </div>
+
+    </section>
+
+
+    <!-- ======================================================================
+         SECTION 7: REFERRALS & ESCALATIONS (MODULE H)
+         ====================================================================== -->
+    <section id="referrals" class="section">
+
+        <div class="section-heading">
+            <div>
+                <h2 data-i18n="nav_referrals">Referrals & Escalations</h2>
+                <p>Closed-loop specialist referral tracking to guarantee patient accountability across facilities.</p>
+            </div>
+            <button class="btn btn-primary" id="newReferralBtn">
+                <i class="fa-solid fa-share-nodes"></i> + Create Referral
+            </button>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th data-i18n="table_patient">Patient</th>
+                        <th>Referred Facility</th>
+                        <th>Reason for Referral</th>
+                        <th>Assigned Clinician</th>
+                        <th data-i18n="table_status">Status</th>
+                        <th>Documented Outcome</th>
+                        <th data-i18n="table_actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="fullReferralList"></tbody>
+            </table>
+        </div>
+
+    </section>
+
+
+    <!-- ======================================================================
+         SECTION 8: REMINDERS & SIMULATED COMMUNICATION (MODULE K)
+         ====================================================================== -->
+    <section id="reminders" class="section">
+
+        <div class="section-heading">
+            <div>
+                <h2 data-i18n="nav_reminders">Reminders (SMS & WhatsApp Simulation)</h2>
+                <p>Multilingual appointment and check-in notifications with simulated delivery receipts.</p>
+            </div>
+            <button class="btn btn-primary" id="newReminderBtn">
+                <i class="fa-solid fa-paper-plane"></i> Compose Reminder
+            </button>
+        </div>
+
+        <div class="notice">
+            <i class="fa-solid fa-language" style="font-size:16px; color:var(--teal);"></i>
+            <div>
+                <b>Multilingual Reminder Engine:</b> Messages are formatted in the patient's preferred language (Hindi, Bengali, Marathi, Assamese, or English) based on their consent profile.
+            </div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th data-i18n="table_patient">Patient</th>
+                        <th>Channel</th>
+                        <th>Message Content</th>
+                        <th>Scheduled Time</th>
+                        <th data-i18n="table_status">Delivery Status</th>
+                        <th>Mobile Preview</th>
+                    </tr>
+                </thead>
+                <tbody id="reminderTable"></tbody>
+            </table>
+        </div>
+
+    </section>
+
+
+    <!-- ======================================================================
+         SECTION 9: AI SUPPORT ASSISTANT (MODULE I)
+         ====================================================================== -->
+    <section id="ai-assistant" class="section">
+
+        <div class="section-heading">
+            <div>
+                <h2 data-i18n="nav_ai">AI Support Assistant</h2>
+                <p>Safe AI assistance layer to summarize history, structure symptoms, and explain clinical alerts.</p>
+            </div>
+            <div class="live-pill">
+                <i class="fa-solid fa-shield-check" style="color:var(--green)"></i> NON-DIAGNOSTIC SAFETY GUARDS ACTIVE
+            </div>
+        </div>
+
+        <div class="notice warning">
+            <i class="fa-solid fa-shield-halved" style="font-size:16px;"></i>
+            <div>
+                <b>AI Safety Guidelines:</b>
+                AI does not diagnose, prescribe medication, or override clinical rules. All AI-generated text is labeled as AI-assisted, and original verified patient vitals remain available.
+            </div>
+        </div>
+
+        <!-- 4 AI WORKBENCH TOOLS -->
+        <div class="ai-tools-grid">
+
+            <!-- Tool 1: Patient History Summarizer -->
+            <div class="ai-tool-card">
+                <h4><i class="fa-solid fa-book-medical" style="color:var(--teal)"></i> Patient History Summarizer</h4>
+                <p>Generate a concise clinical trajectory summary across check-ins and appointments.</p>
+                <div class="field">
+                    <label>Select Patient</label>
+                    <select id="aiPatientSelect"></select>
+                </div>
+                <button class="btn btn-primary" style="margin-top:10px;" onclick="runAiHistorySummary()">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Summarize Trajectory
+                </button>
+                <div class="ai-output-box" id="aiHistoryOutput">Select a patient and click 'Summarize Trajectory'.</div>
+            </div>
+
+            <!-- Tool 2: Free-Text Symptom Structurer -->
+            <div class="ai-tool-card">
+                <h4><i class="fa-solid fa-layer-group" style="color:var(--orange)"></i> Free-Text Symptom Structurer</h4>
+                <p>Transform colloquial patient complaints in Indian regional languages into structured notes.</p>
+                <div class="field">
+                    <label>Patient Free-Text Complaint</label>
+                    <textarea id="aiFreeTextInput" style="min-height:55px;" placeholder="e.g. सर में दो दिन से बहुत तेज दर्द है और थोड़ा बुखार महसूस हो रहा है..."></textarea>
+                </div>
+                <button class="btn btn-primary" style="margin-top:10px; background:var(--orange);" onclick="runAiSymptomStructuring()">
+                    <i class="fa-solid fa-arrow-down-short-wide"></i> Structure Notes
+                </button>
+                <div class="ai-output-box" id="aiSymptomOutput">Enter notes above and click 'Structure Notes'.</div>
+            </div>
+
+            <!-- Tool 3: Plain Language Alert Explainer -->
+            <div class="ai-tool-card">
+                <h4><i class="fa-solid fa-comments" style="color:var(--purple)"></i> Plain-Language Alert Explainer</h4>
+                <p>Explain triggered rules in simple terminology for frontline ASHA workers or patients.</p>
+                <div class="field">
+                    <label>Select Triggered Alert</label>
+                    <select id="aiAlertSelect"></select>
+                </div>
+                <button class="btn btn-primary" style="margin-top:10px; background:var(--purple);" onclick="runAiAlertExplainer()">
+                    <i class="fa-solid fa-comment-dots"></i> Explain in Plain Language
+                </button>
+                <div class="ai-output-box" id="aiAlertExplainOutput">Select an alert and click 'Explain in Plain Language'.</div>
+            </div>
+
+            <!-- Tool 4: Clinician SBAR Case Brief -->
+            <div class="ai-tool-card">
+                <h4><i class="fa-solid fa-user-doctor" style="color:var(--blue)"></i> Clinician SBAR Case Brief</h4>
+                <p>Format a structured Situation, Background, Assessment, and Recommendation brief for doctor review.</p>
+                <div class="field">
+                    <label>Select Patient</label>
+                    <select id="aiBriefPatientSelect"></select>
+                </div>
+                <button class="btn btn-primary" style="margin-top:10px; background:var(--blue);" onclick="runAiCaseBrief()">
+                    <i class="fa-solid fa-stethoscope"></i> Generate SBAR Brief
+                </button>
+                <div class="ai-output-box" id="aiCaseBriefOutput">Select a patient and generate case brief.</div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ======================================================================
+         SECTION 10: RULE CONFIGURATION (MODULE E18)
+         ====================================================================== -->
+    <section id="rules-config" class="section">
+
+        <div class="section-heading">
+            <div>
+                <h2 data-i18n="nav_rules">Attention Engine Rule Configuration</h2>
+                <p>Configure clinical review thresholds and surveillance triggers. Requires administrator authorization.</p>
+            </div>
+            <div class="live-pill">
+                <i class="fa-solid fa-lock"></i> ADMINISTRATOR / CLINICIAN MODE
+            </div>
+        </div>
+
+        <div class="panel" style="max-width:750px;">
+            <form id="ruleConfigForm">
+                <div class="form-grid">
+                    <div class="field">
+                        <label>Critical Fever Cutoff (°C)</label>
+                        <input type="number" step="0.1" id="cfgFever" required>
+                        <small style="color:var(--muted)">Triggers RULE_TEMP_FEVER_CRITICAL (default: 38.0°C)</small>
+                    </div>
+
+                    <div class="field">
+                        <label>SpO2 Hypoxia Lower Limit (%)</label>
+                        <input type="number" id="cfgSpo2" required>
+                        <small style="color:var(--muted)">Triggers RULE_SPO2_CRITICAL_DROP (default: 94%)</small>
+                    </div>
+
+                    <div class="field">
+                        <label>BP Systolic Hypertension Max (mmHg)</label>
+                        <input type="number" id="cfgSys" required>
+                        <small style="color:var(--muted)">Triggers Stage 2 Hypertension (default: 140 mmHg)</small>
+                    </div>
+
+                    <div class="field">
+                        <label>BP Diastolic Hypertension Max (mmHg)</label>
+                        <input type="number" id="cfgDia" required>
+                        <small style="color:var(--muted)">Triggers Stage 2 Hypertension (default: 90 mmHg)</small>
+                    </div>
+                </div>
+
+                <div class="notice" style="margin-top:18px;">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <div>
+                        <b>Clinical Governance:</b> These prototype rules are labeled for demonstration and require medical advisory board validation before real-world hospital deployment.
+                    </div>
+                </div>
+
+                <div class="form-actions" style="margin-top:14px;">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk"></i> Save Rule Thresholds
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </section>
+
+
+    <!-- ======================================================================
+         SECTION 11: REPORTS & ANALYTICS (MODULE M)
+         ====================================================================== -->
+    <section id="reports" class="section">
+
+        <div class="section-heading">
+            <div>
+                <h2 data-i18n="nav_reports">Reports & Analytics</h2>
+                <p>Monitor surveillance indicators, follow-up adherence rates, and export anonymized registers.</p>
+            </div>
+            <button class="btn btn-outline" id="exportBtn">
+                <i class="fa-solid fa-file-csv"></i> Export Patient Registry (CSV)
+            </button>
+        </div>
+
+        <div class="stat-grid compact-stats">
+            <div class="stat-card teal">
+                <span>Total Registered</span>
+                <strong id="reportPatients">0</strong>
+            </div>
+            <div class="stat-card orange">
+                <span>Overdue Follow-ups</span>
+                <strong id="reportOverdue">0</strong>
+            </div>
+            <div class="stat-card green">
+                <span>Completion Rate</span>
+                <strong id="reportCompletion">0%</strong>
+            </div>
+            <div class="stat-card purple">
+                <span>Closed Referrals</span>
+                <strong id="reportClosed">0</strong>
+            </div>
+        </div>
+
+        <div class="grid-two">
+            <div class="panel">
+                <h3>Follow-up Status Distribution</h3>
+                <p>Status breakdown across active cases</p>
+                <div class="bar-chart" id="statusChart"></div>
+            </div>
+
+            <div class="panel">
+                <h3>Completed Follow-ups Trend</h3>
+                <p>7-day completion activity</p>
+                <div class="trend-chart" id="trendChart"></div>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- ======================================================================
+         SECTION 12: AUDIT TRAIL (MODULE L)
+         ====================================================================== -->
+    <section id="audit" class="section">
+
+        <div class="section-heading">
+            <div>
+                <h2 data-i18n="nav_audit">Audit Trail & Security Log</h2>
+                <p>Immutable log of clinical actions, alert generations, referrals, and staff acknowledgements.</p>
+            </div>
+            <button class="btn btn-outline" id="clearAuditBtn" style="color:var(--red);">
+                <i class="fa-regular fa-trash-can"></i> Clear Demo Log
+            </button>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Actor / Role</th>
+                        <th>Action Category</th>
+                        <th>Event Description & Traceability</th>
+                    </tr>
+                </thead>
+                <tbody id="auditList"></tbody>
+            </table>
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ==========================================================================
+     MODAL CONTAINER & TOAST NOTIFICATION
+     ========================================================================== -->
+<div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+        <div class="modal-head">
+            <h2 id="modalTitle">Modal Title</h2>
+            <button class="icon-btn" id="closeModal">&times;</button>
+        </div>
+        <div id="modalBody"></div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Engine Scripts -->
+<script src="doctor.js"></script>
+
+<script>
+    // Set formatted date string in topbar
+    const dt = new Date();
+    const str = dt.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+    const el = document.getElementById("todayDateStr");
+    if (el) el.textContent = str;
+</script>
+
+</body>
+</html>

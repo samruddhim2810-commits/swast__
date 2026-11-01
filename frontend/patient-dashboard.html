@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SWASTHYA SENSE | Patient & Caregiver Portal</title>
+  
+  <!-- Modern Clean Healthcare Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="app-layout">
+
+  <!-- =========================================================================
+       SIDEBAR NAVIGATION
+       ========================================================================= -->
+  <aside class="sidebar">
+    <!-- Brand -->
+    <div class="sidebar-brand">
+      <div class="brand-logo-wrap">
+        <div class="brand-logo-icon">
+          <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+        <div>
+          <div class="brand-name">SWASTHYA SENSE</div>
+          <div class="brand-tagline" data-i18n="brand_tagline">Turning Health Signals Into Timely Care</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Card -->
+    <div class="sidebar-user-card">
+      <div class="user-avatar" id="sidebarAvatar">P</div>
+      <div class="user-info">
+        <div class="user-name" id="sidebarUserName">Patient</div>
+        <div class="user-role" data-i18n="role_patient">Patient Portal</div>
+      </div>
+      <div class="user-status-dot" title="Active Monitoring"></div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-tab="dashboard">
+        <i class="fa-solid fa-table-columns"></i>
+        <span data-i18n="nav_dashboard">Dashboard</span>
+      </button>
+
+      <button class="nav-item" data-tab="checkin">
+        <i class="fa-solid fa-notes-medical"></i>
+        <span data-i18n="nav_checkin">+ Health check-in</span>
+      </button>
+
+      <button class="nav-item" data-tab="appointments">
+        <i class="fa-regular fa-calendar-check"></i>
+        <span data-i18n="nav_appointments">Appointments & Nearby Doctors</span>
+        <span class="nav-badge badge-cyan" id="badgeAppointments">1</span>
+      </button>
+
+      <button class="nav-item" data-tab="followups">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <span data-i18n="nav_followups">Follow-ups</span>
+        <span class="nav-badge badge-amber" id="badgeFollowups">2</span>
+      </button>
+
+      <button class="nav-item" data-tab="timeline">
+        <i class="fa-solid fa-timeline"></i>
+        <span data-i18n="nav_timeline">My health timeline</span>
+      </button>
+
+      <button class="nav-item" data-tab="reminders">
+        <i class="fa-solid fa-comment-sms"></i>
+        <span data-i18n="nav_reminders">Reminders</span>
+      </button>
+
+      <button class="nav-item" data-tab="family">
+        <i class="fa-solid fa-people-roof"></i>
+        <span data-i18n="nav_family">Family / Caregiver</span>
+      </button>
+
+      <button class="nav-item" data-tab="profile">
+        <i class="fa-solid fa-id-card-clip"></i>
+        <span data-i18n="nav_profile">My profile</span>
+      </button>
+    </nav>
+
+    <!-- Quick Actions -->
+    <div class="sidebar-section-title" data-i18n="quick_actions_title">QUICK ACTIONS</div>
+    <div class="sidebar-quick-actions">
+      <button class="quick-action-btn" id="btnQuickCheckin">
+        <i class="fa-solid fa-plus"></i>
+        <span data-i18n="quick_checkin">+ Submit check-in</span>
+      </button>
+
+      <button class="quick-action-btn outline" id="btnQuickAppointment">
+        <i class="fa-regular fa-calendar-plus"></i>
+        <span data-i18n="quick_appointment">Request appointment</span>
+      </button>
+
+      <!-- Active Location Station -->
+      <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px 12px; margin-top: 10px; font-size: 0.76rem;">
+        <div style="color: var(--brand-teal); font-weight: 700; display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
+          <i class="fa-solid fa-location-dot"></i> <span id="sidebarCityName">Rampur, Sector 4</span>
+        </div>
+        <div style="color: #94a3b8; font-size: 0.7rem;">Verified Patient GPS Radius</div>
+      </div>
+
+      <!-- Sign Out -->
+      <a href="index.html" class="quick-action-btn outline" style="margin-top: 8px; color: #9bb7c7; border-color: rgba(255,255,255,0.12); text-decoration: none;">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        <span>Sign Out</span>
+      </a>
+    </div>
+
+    <!-- Footer -->
+    <div class="sidebar-footer">
+      <div class="footer-title">SWASTHYA SENSE</div>
+      <div class="footer-sub" data-i18n="footer_sub">Patient Care Portal</div>
+      <div class="footer-motto" data-i18n="footer_motto">No Patient Lost in the Follow-up Process.</div>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       MAIN CONTENT CONTAINER
+       ========================================================================= -->
+  <main class="main-content">
+
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <span class="text-greeting" data-i18n="header_greeting">Here's your personal health and follow-up overview</span>
+        <div class="header-location-pill" id="headerLocationPill" title="Click to view nearby verified doctors">
+          <i class="fa-solid fa-location-dot"></i>
+          <span id="dispCurrentLocationText">Detecting Location...</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <!-- Caregiver Toggle Button -->
+        <button class="btn-caregiver-toggle" id="btnCaregiverToggle" title="Toggle between Patient and Family Caregiver perspective">
+          <i class="fa-solid fa-user-group"></i>
+          <span id="caregiverModeLabel" data-i18n="caregiver_mode_btn">Caregiver View</span>
+        </button>
+
+        <!-- 5-Language Selector -->
+        <div class="language-dropdown-wrapper">
+          <i class="fa-solid fa-language lang-icon"></i>
+          <select id="languageSelect" class="lang-select" aria-label="Language Selector">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="mr">मराठी (Marathi)</option>
+            <option value="as">অসমীয়া (Assamese)</option>
+            <option value="bn">বাংলা (Bengali)</option>
+          </select>
+        </div>
+
+        <!-- Emergency SOS Button -->
+        <button class="btn-emergency" id="btnEmergencyTrigger" title="Immediate family and facility SOS alert">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span data-i18n="emergency_sos">Emergency SOS</span>
+        </button>
+
+        <!-- Notification Bell -->
+        <button class="header-action-bell" id="btnHeaderBell" aria-label="Alerts">
+          <i class="fa-regular fa-bell"></i>
+          <span class="bell-dot" id="bellAlertCount">1</span>
+        </button>
+
+        <!-- Sign Out -->
+        <a href="index.html" class="btn-logout" title="Sign Out">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </a>
+      </div>
+    </header>
+
+    <!-- Scrollable Content Body -->
+    <div class="content-scroll">
+
+      <!-- Dynamic Emergency Broadcast Banner (Appears when critical rule triggers) -->
+      <div id="autoEmergencyBanner"></div>
+
+      <!-- =====================================================================
+           TAB 1: DASHBOARD
+           ===================================================================== -->
+      <section id="tab-dashboard" class="tab-pane active">
+
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+          <div class="hero-content">
+            <div class="hero-pill" data-i18n="hero_pill">YOUR PERSONAL CARE SPACE</div>
+            <h1 class="hero-heading">
+              <span data-i18n="hero_welcome">Welcome back,</span> <span class="highlight-name" id="heroPatientName">Patient</span>
+            </h1>
+            <p class="hero-subtext" data-i18n="hero_subtext">
+              Stay connected with your healthcare journey. Keep your check-ins and follow-ups up to date.
+            </p>
+            <div class="hero-cta-group">
+              <button class="btn-hero-action" id="btnHeroCheckin">
+                <i class="fa-solid fa-plus"></i>
+                <span data-i18n="btn_submit_checkin">+ Submit health check-in</span>
+              </button>
+              <button class="btn-hero-secondary" id="btnHeroEmergencyNotice">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span data-i18n="family_alert_active">Family Alert Sync Active</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="hero-illustration">
+            <div class="pulse-ring">
+              <div class="ring-outer"></div>
+              <div class="ring-middle"></div>
+              <div class="ring-inner">
+                <i class="fa-solid fa-plus pulse-icon"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section Header -->
+        <div class="section-header-row">
+          <div>
+            <h2 class="section-title" data-i18n="overview_title">Your health overview</h2>
+            <div class="section-subtitle" id="dashboardDateText">Saturday, 31 October 2026</div>
+          </div>
+          <div class="patient-id-badge">
+            <span data-i18n="patient_id_label">Patient ID:</span> <strong id="overviewPatientId">SS-877041</strong>
+          </div>
+        </div>
+
+        <!-- 4 KPI Metrics Grid -->
+        <div class="kpi-grid">
+          <div class="kpi-card kpi-appointments">
+            <div class="kpi-top">
+              <span class="kpi-label" data-i18n="kpi_appointments">My appointments</span>
+              <div class="kpi-icon"><i class="fa-regular fa-calendar-check"></i></div>
+            </div>
+            <div class="kpi-value" id="kpiAppointmentsVal">1</div>
+            <div class="kpi-subtext" data-i18n="kpi_appointments_sub">Scheduled and requested</div>
+          </div>
+
+          <div class="kpi-card kpi-checkins">
+            <div class="kpi-top">
+              <span class="kpi-label" data-i18n="kpi_checkins">Health check-ins</span>
+              <div class="kpi-icon"><i class="fa-solid fa-notes-medical"></i></div>
+            </div>
+            <div class="kpi-value" id="kpiCheckinsVal">0</div>
+            <div class="kpi-subtext" data-i18n="kpi_checkins_sub">Records submitted</div>
+          </div>
+
+          <div class="kpi-card kpi-pending">
+            <div class="kpi-top">
+              <span class="kpi-label" data-i18n="kpi_pending">Pending follow-ups</span>
+              <div class="kpi-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+            </div>
+            <div class="kpi-value" id="kpiPendingVal">2</div>
+            <div class="kpi-subtext" data-i18n="kpi_pending_sub">Awaiting completion</div>
+          </div>
+
+          <div class="kpi-card kpi-completed">
+            <div class="kpi-top">
+              <span class="kpi-label" data-i18n="kpi_completed">Completed follow-ups</span>
+              <div class="kpi-icon"><i class="fa-solid fa-circle-check"></i></div>
+            </div>
+            <div class="kpi-value" id="kpiCompletedVal">1</div>
+            <div class="kpi-subtext" data-i18n="kpi_completed_sub">Recorded as completed</div>
+          </div>
+        </div>
+
+        <!-- Summary Strip -->
+        <div class="summary-strip-row" style="display: flex; justify-content: space-between; align-items: center; background: #ffffff; border: 1px solid var(--border-light); padding: 12px 18px; border-radius: var(--radius-md); margin-bottom: 22px; font-size: 0.88rem;">
+          <div style="display: flex; gap: 16px; align-items: center;">
+            <strong style="color: var(--text-main);" data-i18n="my_care_summary">My care summary</strong>
+            <span style="color: var(--text-muted);"><span data-i18n="followup_status_prefix">Follow-up status:</span> <strong style="color: var(--brand-amber);"><span id="summaryPendingCount">2</span> pending</strong></span>
+          </div>
+          <div style="color: var(--brand-emerald); font-weight: 600;">
+            <span id="summaryCompletedCount">1</span> completed
+          </div>
+        </div>
+
+        <!-- Attention Engine Card (Primary USP) -->
+        <div class="attention-engine-card">
+          <div class="attention-header">
+            <div>
+              <div class="attention-title" data-i18n="attention_title">My Follow-up Attention</div>
+              <div class="attention-subtitle" data-i18n="attention_subtitle">Personal follow-up information and system notifications</div>
+            </div>
+            <div class="attention-badges">
+              <span class="badge-demo-rules" data-i18n="badge_demo_rules">DEMO RULES</span>
+              <button class="btn-refresh-rules" id="btnReevaluateRules" title="Re-evaluate rule thresholds against latest telemetry">
+                <i class="fa-solid fa-arrows-rotate"></i>
+                <span data-i18n="btn_evaluate">Evaluate Rules</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="clinical-disclaimer-box">
+            <i class="fa-solid fa-circle-info disclaimer-icon"></i>
+            <span data-i18n="clinical_disclaimer">
+              Overdue follow-ups are administrative reminders, not medical emergencies. Clinical decisions remain with qualified clinicians.
+            </span>
+          </div>
+
+          <!-- Dynamic Alerts Stream -->
+          <div class="alerts-stream" id="attentionAlertsContainer">
+            <!-- Populated dynamically by app.js -->
+          </div>
+        </div>
+
+        <!-- Dashboard Split Grid: Vitals & Family Sync Status -->
+        <div class="dashboard-split-grid">
+          <!-- Vitals Card -->
+          <div class="surface-card">
+            <div class="surface-card-header">
+              <div>
+                <h3 class="card-title" data-i18n="vitals_change_title">Recent Vitals & Change Detection</h3>
+                <p class="card-sub" data-i18n="vitals_change_sub">Compared against baseline clinical thresholds</p>
+              </div>
+              <span class="badge-patient-reported" data-i18n="badge_patient_reported">Patient-Reported</span>
+            </div>
+
+            <div class="vitals-row" id="dashboardVitalsRow">
+              <!-- Rendered dynamically -->
+            </div>
+
+            <div class="delta-callout" id="deltaCalloutBox">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>Vitals stable within configured post-treatment safety limits.</span>
+            </div>
+          </div>
+
+          <!-- Family Sync Status Card -->
+          <div class="surface-card family-accent-card">
+            <div class="surface-card-header">
+              <div>
+                <h3 class="card-title" data-i18n="family_sync_title">Caregiver & Family Sync</h3>
+                <p class="card-sub" data-i18n="family_sync_sub">Live emergency alert synchronization</p>
+              </div>
+              <span class="badge-active-sync" data-i18n="badge_sync_live">SYNC LIVE</span>
+            </div>
+
+            <div class="family-mini-status">
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                <div style="width: 42px; height: 42px; border-radius: 50%; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem;">
+                  <i class="fa-solid fa-shield-cat"></i>
+                </div>
+                <div>
+                  <div style="font-weight: 700; color: var(--text-main);" id="dashFamilyMemberName">Rajesh Sharma</div>
+                  <div style="font-size: 0.78rem; color: var(--text-muted);"><span data-i18n="family_contact_label">Mobile:</span> <span id="dashFamilyPhone">+91 98765 43210</span></div>
+                </div>
+              </div>
+              <div style="font-size: 0.8rem; color: #475569; background: #f8fafc; border: 1px solid var(--border-light); padding: 8px 12px; border-radius: 6px; margin-bottom: 12px;">
+                <span data-i18n="family_lang_label">Preferred Language:</span> <strong id="dashFamilyLang">Hindi (हिन्दी)</strong>
+              </div>
+              <div style="font-size: 0.76rem; color: #64748b; margin-bottom: 14px;">
+                <span data-i18n="family_last_sms">Last SMS Dispatch:</span> <span id="dashFamilyLastMsg">Routine Follow-up Reminder (10:30 AM)</span>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button class="btn-hero-action" style="padding: 7px 12px; font-size: 0.78rem; border-radius: 6px;" id="btnOpenFamilyTab" data-i18n="btn_manage_family">Manage Caregiver</button>
+                <button class="btn-hero-secondary" style="padding: 7px 12px; font-size: 0.78rem; border-radius: 6px;" id="btnSendTestFamilyAlert" data-i18n="btn_test_sms">Test Alert</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Suggested Nearby Doctors Based on Patient's Location -->
+        <div class="surface-card" style="margin-top: 22px;">
+          <div class="surface-card-header">
+            <div>
+              <h3 class="card-title" style="display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-location-dot" style="color: var(--brand-teal);"></i>
+                <span>Suggested Nearby Doctors & Clinics (Near Your Location)</span>
+              </h3>
+              <p class="card-sub">Top verified specialists closest to your current detected radius: <strong id="dashSuggestedLoc" style="color: var(--brand-teal);">Rampur, Sector 4</strong></p>
+            </div>
+            <button class="btn-hero-action" style="padding: 7px 14px; font-size: 0.8rem;" onclick="switchTab('nearby')">
+              <i class="fa-solid fa-map-location-dot"></i> View Full Directory
+            </button>
+          </div>
+
+          <div class="doctors-grid" id="dashSuggestedDoctorsGrid" style="margin-top: 14px;">
+            <!-- Populated dynamically by renderNearbyDoctors() based on live location distance -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- =====================================================================
+           TAB 2: HEALTH CHECK-IN (+ HEALTHCARE WORKER ASSISTED)
+           ===================================================================== -->
+      <section id="tab-checkin" class="tab-pane">
+        <div class="page-header-box">
+          <div>
+            <h2 class="page-title" data-i18n="checkin_page_title">Patient Health Check-in</h2>
+            <p class="page-subtitle" data-i18n="checkin_page_sub">Submit symptom changes and basic measurements for Attention Engine surveillance</p>
+          </div>
+          <div class="badge-source-info">
+            <i class="fa-solid fa-file-shield"></i>
+            <span data-i18n="data_source_label">Clearly distinguishes patient-reported data from clinician-verified records</span>
+          </div>
+        </div>
+
+        <form id="healthCheckinForm">
+          <div class="form-layout-grid">
+            <div class="form-container-card">
+
+              <!-- ASHA Assistance Toggle -->
+              <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 12px 16px; border-radius: var(--radius-md); margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <i class="fa-solid fa-user-nurse" style="color: #16a34a; font-size: 1.2rem;"></i>
+                  <div>
+                    <strong style="color: #166534; font-size: 0.88rem;">Healthcare-Worker Assisted Check-in</strong>
+                    <div style="font-size: 0.78rem; color: #15803d;">Check this if ASHA worker or nurse assisted during home visit</div>
+                  </div>
+                </div>
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="checkAssistedByAsha" style="width: 18px; height: 18px; accent-color: #16a34a;">
+                  <span style="font-size: 0.82rem; font-weight: 600; color: #166534;">ASHA Assisted</span>
+                </label>
+              </div>
+
+              <!-- Section 1: Symptoms -->
+              <div class="form-section">
+                <div class="form-section-heading" data-i18n="symptoms_heading">1. Select Symptoms You Are Experiencing</div>
+                <div class="form-section-tip" data-i18n="symptoms_tip">Check any symptom that started or worsened in the last 48 hours</div>
+
+                <div class="symptoms-chips-grid">
+                  <label class="symptom-chip">
+                    <input type="checkbox" name="symptoms" value="chest_pain">
+                    <div class="chip-content">
+                      <i class="fa-solid fa-heart-crack"></i>
+                      <span data-i18n="sym_chest_pain">Chest Pain / Heaviness</span>
+                    </div>
+                  </label>
+
+                  <label class="symptom-chip">
+                    <input type="checkbox" name="symptoms" value="shortness_breath">
+                    <div class="chip-content">
+                      <i class="fa-solid fa-lungs"></i>
+                      <span data-i18n="sym_shortness_breath">Shortness of Breath</span>
+                    </div>
+                  </label>
+
+                  <label class="symptom-chip">
+                    <input type="checkbox" name="symptoms" value="dizziness">
+                    <div class="chip-content">
+                      <i class="fa-solid fa-head-side-cough"></i>
+                      <span data-i18n="sym_dizziness">Dizziness / Lightheadedness</span>
+                    </div>
+                  </label>
+
+                  <label class="symptom-chip">
+                    <input type="checkbox" name="symptoms" value="swelling">
+                    <div class="chip-content">
+                      <i class="fa-solid fa-socks"></i>
+                      <span data-i18n="sym_swelling">Swelling in Feet / Ankles</span>
+                    </div>
+                  </label>
+
+                  <label class="symptom-chip">
+                    <input type="checkbox" name="symptoms" value="fever">
+                    <div class="chip-content">
+                      <i class="fa-solid fa-temperature-arrow-up"></i>
+                      <span data-i18n="sym_fever">Fever or Chills</span>
+                    </div>
+                  </label>
+
+                  <label class="symptom-chip">
+                    <input type="checkbox" name="symptoms" value="fatigue">
+                    <div class="chip-content">
+                      <i class="fa-solid fa-bed"></i>
+                      <span data-i18n="sym_fatigue">Severe Fatigue / Weakness</span>
+                    </div>
+                  </label>
+
+                  <label class="symptom-chip">
+                    <input type="checkbox" name="symptoms" value="headache">
+                    <div class="chip-content">
+                      <i class="fa-solid fa-brain"></i>
+                      <span data-i18n="sym_headache">Severe Throbbing Headache</span>
+                    </div>
+                  </label>
+
+                  <label class="symptom-chip">
+                    <input type="checkbox" name="symptoms" value="cough">
+                    <div class="chip-content">
+                      <i class="fa-solid fa-virus"></i>
+                      <span data-i18n="sym_cough">Persistent Cough</span>
+                    </div>
+                  </label>
+                </div>
+
+                <div style="margin-top: 14px;">
+                  <label class="form-label" style="font-weight: 600; font-size: 0.85rem;" data-i18n="symptom_notes_label">Describe your symptoms in your own words (Free Text)</label>
+                  <textarea id="symptomNotes" class="form-input" rows="3" placeholder="Explain how you are feeling, when it started, or if any medicine relieved it..." style="width: 100%; border-radius: var(--radius-sm); padding: 10px; border: 1px solid var(--border-light); font-size: 0.85rem;"></textarea>
+                  <div style="font-size: 0.74rem; color: #64748b; margin-top: 4px;" data-i18n="symptom_notes_hint">AI Support Module can automatically translate and summarize this for clinician review.</div>
+                </div>
+              </div>
+
+              <!-- Section 2: Vitals -->
+              <div class="form-section">
+                <div class="form-section-heading" data-i18n="vitals_heading">2. Basic Health Measurements</div>
+                <div class="form-section-tip" data-i18n="vitals_tip">Enter any measurements taken today with home monitors or ASHA kit</div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 14px;">
+                  <div>
+                    <label class="form-label" style="font-weight: 600; font-size: 0.82rem;" data-i18n="bp_sys_label">Systolic BP (mmHg)</label>
+                    <input type="number" id="inputSysBP" class="form-input" placeholder="e.g. 135" min="70" max="260" style="width: 100%; padding: 9px; border: 1px solid var(--border-light); border-radius: 6px;">
+                    <div id="hintSysBP" style="font-size: 0.72rem; color: #64748b; margin-top: 4px;" data-i18n="hint_bp_sys">Normal: 90 - 120 mmHg</div>
+                  </div>
+
+                  <div>
+                    <label class="form-label" style="font-weight: 600; font-size: 0.82rem;" data-i18n="bp_dia_label">Diastolic BP (mmHg)</label>
+                    <input type="number" id="inputDiaBP" class="form-input" placeholder="e.g. 88" min="40" max="150" style="width: 100%; padding: 9px; border: 1px solid var(--border-light); border-radius: 6px;">
+                    <div id="hintDiaBP" style="font-size: 0.72rem; color: #64748b; margin-top: 4px;" data-i18n="hint_bp_dia">Normal: 60 - 80 mmHg</div>
+                  </div>
+
+                  <div>
+                    <label class="form-label" style="font-weight: 600; font-size: 0.82rem;" data-i18n="spo2_label">Blood Oxygen SpO2 (%)</label>
+                    <input type="number" id="inputSpO2" class="form-input" placeholder="e.g. 97" min="60" max="100" style="width: 100%; padding: 9px; border: 1px solid var(--border-light); border-radius: 6px;">
+                    <div id="hintSpO2" style="font-size: 0.72rem; color: #64748b; margin-top: 4px;" data-i18n="hint_spo2">Normal: 95 - 100% (Critical: &lt; 92%)</div>
+                  </div>
+
+                  <div>
+                    <label class="form-label" style="font-weight: 600; font-size: 0.82rem;" data-i18n="pulse_label">Pulse / Heart Rate (bpm)</label>
+                    <input type="number" id="inputHeartRate" class="form-input" placeholder="e.g. 78" min="35" max="220" style="width: 100%; padding: 9px; border: 1px solid var(--border-light); border-radius: 6px;">
+                    <div style="font-size: 0.72rem; color: #64748b; margin-top: 4px;">Normal: 60 - 100 bpm</div>
+                  </div>
+
+                  <div>
+                    <label class="form-label" style="font-weight: 600; font-size: 0.82rem;">Body Temp (°F)</label>
+                    <input type="number" step="0.1" id="inputTemp" class="form-input" placeholder="e.g. 98.6" min="94" max="107" style="width: 100%; padding: 9px; border: 1px solid var(--border-light); border-radius: 6px;">
+                    <div style="font-size: 0.72rem; color: #64748b; margin-top: 4px;">Normal: 97.5 - 99.0 °F</div>
+                  </div>
+
+                  <div>
+                    <label class="form-label" style="font-weight: 600; font-size: 0.82rem;">Random Blood Sugar (mg/dL)</label>
+                    <input type="number" id="inputSugar" class="form-input" placeholder="e.g. 110" min="40" max="500" style="width: 100%; padding: 9px; border: 1px solid var(--border-light); border-radius: 6px;">
+                    <div style="font-size: 0.72rem; color: #64748b; margin-top: 4px;">Target: 80 - 140 mg/dL</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section 3: File Attachment -->
+              <div class="form-section">
+                <div class="form-section-heading">3. Optional Photo or Prescription Attachment</div>
+                <div class="form-section-tip">Upload photo of BP monitor screen, lab report, or prescription</div>
+
+                <div id="fileDropzone" style="border: 2px dashed #cbd5e1; border-radius: var(--radius-md); padding: 20px; text-align: center; cursor: pointer; background: #f8fafc; transition: all 0.2s;">
+                  <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; color: var(--brand-teal); margin-bottom: 8px;"></i>
+                  <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-main);">Drag & Drop file here or Click to Browse</div>
+                  <div style="font-size: 0.74rem; color: #64748b; margin-top: 4px;">Supported: JPG, PNG, PDF (Max 5MB)</div>
+                  <input type="file" id="attachmentInput" style="display: none;" accept="image/*,application/pdf">
+                  <div id="attachmentFileName" style="font-size: 0.8rem; font-weight: 600; color: var(--brand-emerald); margin-top: 8px;"></div>
+                </div>
+              </div>
+
+              <!-- Form Buttons -->
+              <div style="display: flex; gap: 12px; margin-top: 24px; justify-content: flex-end; align-items: center;">
+                <button type="button" class="btn-hero-secondary" id="btnPrefillSampleCheckin">
+                  <i class="fa-solid fa-vial"></i> Prefill High-Risk Sample (Rule CR-01 Trigger)
+                </button>
+                <button type="submit" class="btn-hero-action" style="padding: 10px 24px;">
+                  <i class="fa-solid fa-paper-plane"></i> Submit Check-in Record
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <!-- =====================================================================
+           TAB 3: APPOINTMENTS & NEARBY DOCTORS (MERGED SECTION)
+           ===================================================================== -->
+      <section id="tab-appointments" class="tab-pane">
+        <div class="page-header-box">
+          <div>
+            <div class="hero-pill-mini"><i class="fa-solid fa-stethoscope"></i> INTEGRATED CLINICAL CARE & PROVIDERS</div>
+            <h2 class="page-title" data-i18n="nav_appointments">Appointments & Nearby Doctors</h2>
+            <p class="page-subtitle">Track scheduled clinician consultations, request follow-ups, and discover verified nearby doctors & emergency ICUs in your GPS radius</p>
+          </div>
+          <button class="btn-hero-action" id="btnOpenRequestAppointmentModal">
+            <i class="fa-regular fa-calendar-plus"></i> <span data-i18n="quick_appointment">Request New Appointment</span>
+          </button>
+        </div>
+
+        <!-- Merged Subnav Controls -->
+        <div class="merged-subnav-bar">
+          <div class="subnav-pills-cluster">
+            <button type="button" class="subnav-pill active" id="btnViewAllMerged">
+              <i class="fa-solid fa-layer-group"></i> <span>All (Appointments & Doctors)</span>
+            </button>
+            <button type="button" class="subnav-pill" id="btnViewAppointmentsOnly">
+              <i class="fa-regular fa-calendar-check"></i> <span>My Appointments</span> (<span id="pillApptCount">1</span>)
+            </button>
+            <button type="button" class="subnav-pill" id="btnViewNearbyOnly">
+              <i class="fa-solid fa-map-location-dot"></i> <span>Nearby Doctors & ICUs</span>
+            </button>
+          </div>
+          <div class="subnav-right-indicator">
+            <i class="fa-solid fa-location-dot" style="color: #38bdf8;"></i>
+            <span id="mergedLocStationText">GPS: Rampur / Pune Medical Radius</span>
+          </div>
+        </div>
+
+        <!-- SUB-SECTION 1: APPOINTMENTS QUEUE -->
+        <div class="merged-section-block" id="blockAppointments">
+          <div class="merged-section-head">
+            <div class="merged-section-title">
+              <i class="fa-regular fa-calendar-check" style="color: #38bdf8;"></i>
+              <span>My Scheduled & Completed Consultations</span>
+            </div>
+            <div style="font-size: 0.74rem; color: #94a3b8;">
+              Assigned Clinician: <strong style="color: #fff;">Dr. Ananya Sharma (Cardiology)</strong>
+            </div>
+          </div>
+
+          <div class="appointments-view-grid">
+            <div>
+              <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                <span>Upcoming / Pending Consultations</span>
+                <span class="badge-count" id="countUpcomingAppointments">1</span>
+              </h3>
+              <div class="appointments-list" id="upcomingAppointmentsList">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+
+            <div>
+              <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                <span>Past & Completed Visits</span>
+                <span class="badge-count" id="countPastAppointments">1</span>
+              </h3>
+              <div class="appointments-list" id="pastAppointmentsList">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-SECTION 2: NEARBY DOCTORS & EMERGENCY FACILITIES FINDER -->
+        <div class="merged-section-block" id="blockNearbyDoctors" style="margin-top: 28px;">
+          <div class="location-hero-bar" style="margin-bottom: 16px;">
+            <div class="location-hero-info">
+              <span class="location-badge-live"><i class="fa-solid fa-circle-dot"></i> GPS Active</span>
+              <h2 class="location-title" data-i18n="nearby_page_title">Find & Book Nearby Doctors & Emergency Facilities</h2>
+              <p class="location-subtext" data-i18n="nearby_page_sub">Find verified clinicians, Primary Health Centers (PHC), and 24x7 Emergency Trauma ICUs. Click "Book Appointment" on any provider to schedule directly.</p>
+            </div>
+
+            <div class="location-controls-group">
+              <button class="btn-gps-detect" id="btnDetectGpsLocation">
+                <i class="fa-solid fa-crosshairs"></i>
+                <span data-i18n="btn_detect_gps">Detect My GPS Location</span>
+              </button>
+              <select id="nearbyCitySelect" class="city-select-box">
+                <option value="pune">Pune, MH</option>
+                <option value="mumbai">Mumbai, MH</option>
+                <option value="delhi">New Delhi, DL</option>
+                <option value="guwahati">Guwahati, AS</option>
+                <option value="kolkata">Kolkata, WB</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Specialty Filter Chips -->
+          <div class="doctors-filter-row" style="margin-bottom: 18px;">
+            <button class="doc-filter-chip active" data-category="all" data-i18n="filter_all_doctors">All Providers</button>
+            <button class="doc-filter-chip" data-category="cardiology" data-i18n="filter_cardiologists">Cardiologists</button>
+            <button class="doc-filter-chip" data-category="general" data-i18n="filter_physicians">General Physicians</button>
+            <button class="doc-filter-chip" data-category="emergency" data-i18n="filter_emergency_icu">Emergency / 24x7 ICU</button>
+            <button class="doc-filter-chip" data-category="maternal">Maternal & Child Health</button>
+          </div>
+
+          <!-- Doctors Grid -->
+          <div class="doctors-grid" id="nearbyDoctorsGrid">
+            <!-- Populated dynamically by renderNearbyDoctors() -->
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 4: FOLLOW-UPS
+           ===================================================================== -->
+      <section id="tab-followups" class="tab-pane">
+        <div class="page-header-box">
+          <div>
+            <h2 class="page-title" data-i18n="nav_followups">Follow-up Management Queue</h2>
+            <p class="page-subtitle">Ensuring no patient is lost in fragmented care transitions</p>
+          </div>
+        </div>
+
+        <div class="followup-filter-chips">
+          <button class="filter-chip active" data-filter="all">All Follow-ups</button>
+          <button class="filter-chip" data-filter="pending">Pending</button>
+          <button class="filter-chip" data-filter="overdue">Overdue</button>
+          <button class="filter-chip" data-filter="completed">Completed</button>
+        </div>
+
+        <div class="followup-cards-container" id="followupCardsList">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 5: MY HEALTH TIMELINE & REPORTS
+           ===================================================================== -->
+      <section id="tab-timeline" class="tab-pane">
+        <div class="page-header-box">
+          <div>
+            <h2 class="page-title" data-i18n="nav_timeline">My Health Journey & Timeline</h2>
+            <p class="page-subtitle">Chronological record of check-ins, clinical alerts, appointments, and treatment progress</p>
+          </div>
+          <button class="btn-hero-secondary" onclick="window.print()">
+            <i class="fa-solid fa-file-pdf"></i> Export Health Report
+          </button>
+        </div>
+
+        <div class="timeline-container" id="patientTimelineContainer">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 6: REMINDERS (SMS / WHATSAPP)
+           ===================================================================== -->
+      <section id="tab-reminders" class="tab-pane">
+        <div class="page-header-box">
+          <div>
+            <h2 class="page-title" data-i18n="nav_reminders">Automated Reminders & Phone Preview</h2>
+            <p class="page-subtitle">Simulated multi-channel SMS and WhatsApp notifications dispatched to patient & guardian</p>
+          </div>
+          <button class="btn-hero-action" id="btnTriggerDemoReminder">
+            <i class="fa-solid fa-paper-plane"></i> Dispatch Demo Follow-up Reminder
+          </button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: start;">
+          <!-- Dispatched Reminders History -->
+          <div class="surface-card">
+            <div class="surface-card-header">
+              <h3 class="card-title">Dispatched Reminder History (<span id="countDispatchedReminders">0</span>)</h3>
+              <span class="badge-active-sync">Dual Guardian Enabled</span>
+            </div>
+            <div id="reminderMessagesList" style="display: flex; flex-direction: column; gap: 12px; margin-top: 14px;">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Realistic Phone Mockup -->
+          <div style="background: #ffffff; border: 1px solid var(--border-light); border-radius: 28px; padding: 16px; box-shadow: var(--shadow-lg);">
+            <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 12px;">
+              <button id="phoneTabSMS" class="quick-action-btn" style="padding: 6px 14px; font-size: 0.78rem;">SMS Mode</button>
+              <button id="phoneTabWA" class="quick-action-btn outline" style="padding: 6px 14px; font-size: 0.78rem;">WhatsApp Mode</button>
+            </div>
+
+            <!-- Phone Screen -->
+            <div style="background: #e2e8f0; border-radius: 20px; overflow: hidden; border: 3px solid #1e293b; min-height: 480px; display: flex; flex-direction: column;">
+              <!-- Phone Header -->
+              <div style="background: #0f172a; color: #fff; padding: 12px 14px; font-size: 0.8rem; display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-shield-heart" style="color: #38bdf8;"></i>
+                <div>
+                  <div style="font-weight: 700;">SWASTHYA-SENSE</div>
+                  <div style="font-size: 0.68rem; color: #94a3b8;">Govt. Verified Healthcare Service</div>
+                </div>
+              </div>
+              <!-- Phone Chat Body -->
+              <div id="phoneChatBody" style="flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #e5e7eb;">
+                <!-- Filled dynamically by updatePhonePreview() -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+      <!-- =====================================================================
+           TAB 8: FAMILY MEMBER / CAREGIVER SUPPORT
+           ===================================================================== -->
+      <section id="tab-family" class="tab-pane">
+        <div class="page-header-box">
+          <div>
+            <span class="hero-pill-mini">PRIMARY GUARDIAN SYNCHRONIZATION</span>
+            <h2 class="page-title" data-i18n="nav_family">Family Member & Caregiver Support</h2>
+            <p class="page-subtitle">Caregiver receives simultaneous automated alerts, reminders, and emergency escalation notifications</p>
+          </div>
+          <button class="btn-hero-action" id="btnOpenAddFamilyModal">
+            <i class="fa-solid fa-user-pen"></i> Edit Caregiver Info
+          </button>
+        </div>
+
+        <div class="family-portal-grid">
+          <!-- Caregiver Profile Display -->
+          <div class="surface-card">
+            <div class="surface-card-header">
+              <h3 class="card-title">Registered Primary Caregiver</h3>
+              <span class="badge-active-sync">Consented & Active</span>
+            </div>
+
+            <div class="caregiver-profile-display" style="margin-top: 16px;">
+              <div class="caregiver-avatar">
+                <i class="fa-solid fa-user-shield"></i>
+              </div>
+              <div style="flex: 1;">
+                <h4 class="caregiver-name" id="dispCaregiverName">Rajesh Sharma</h4>
+                <div class="caregiver-relation" id="dispCaregiverRelation">Father / Primary Guardian</div>
+                <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 10px; font-size: 0.82rem; color: #475569;">
+                  <div><i class="fa-solid fa-phone" style="width: 20px; color: var(--brand-teal);"></i> <strong id="dispCaregiverPhone">+91 98765 43210</strong></div>
+                  <div><i class="fa-solid fa-envelope" style="width: 20px; color: var(--brand-teal);"></i> <span id="dispCaregiverEmail">rajesh.sharma@example.com</span></div>
+                  <div><i class="fa-solid fa-language" style="width: 20px; color: var(--brand-teal);"></i> Preferred SMS Language: <strong id="dispCaregiverLang">Hindi (हिन्दी)</strong></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="family-card-actions" style="margin-top: 20px; display: flex; gap: 10px;">
+              <button class="btn-hero-action" id="btnSimulateFamilyEmergency" style="background: var(--brand-crimson);">
+                <i class="fa-solid fa-bell"></i> Simulate Critical Family Alert (With Chime)
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Contact Hub -->
+          <div class="surface-card caregiver-contact-hub">
+            <div class="surface-card-header">
+              <h3 class="hub-title">Frontline & Doctor Hotline</h3>
+            </div>
+            <p style="font-size: 0.82rem; color: #64748b; margin-top: 6px; margin-bottom: 16px;">
+              One-touch direct calling for caregivers during follow-up distress
+            </p>
+
+            <div class="contact-buttons-row" style="display: flex; flex-direction: column; gap: 10px;">
+              <button class="btn-hero-secondary" id="btnCallDoctor" style="justify-content: flex-start; padding: 12px 16px;">
+                <i class="fa-solid fa-user-doctor" style="color: var(--brand-teal); font-size: 1.2rem;"></i>
+                <div style="text-align: left; margin-left: 10px;">
+                  <div style="font-weight: 700; color: var(--text-main);">Dr. Ananya Sharma (Clinician)</div>
+                  <div style="font-size: 0.72rem; color: #64748b;">Direct District Hospital Line: +91 94220 11223</div>
+                </div>
+              </button>
+
+              <button class="btn-hero-secondary" id="btnCallAsha" style="justify-content: flex-start; padding: 12px 16px;">
+                <i class="fa-solid fa-user-nurse" style="color: var(--brand-emerald); font-size: 1.2rem;"></i>
+                <div style="text-align: left; margin-left: 10px;">
+                  <div style="font-weight: 700; color: var(--text-main);">Sunita Devi (Frontline ASHA Worker)</div>
+                  <div style="font-size: 0.72rem; color: #64748b;">Ward 12 PHC Field Phone: +91 98210 99887</div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Family Alert Dispatch Feed -->
+        <div class="surface-card" style="margin-top: 20px;">
+          <div class="surface-card-header">
+            <div>
+              <h3 class="card-title">Family Dispatch Feed (SMS / WhatsApp Delivery Log)</h3>
+              <p class="card-sub" id="familySmsFeedSub">Verified dispatch to Rajesh Sharma (+91 98765 43210)</p>
+            </div>
+            <span class="badge-active-sync" id="familySmsBadge">0 Sent</span>
+          </div>
+          <div class="family-sms-history" id="familySmsHistoryContainer" style="margin-top: 14px; display: flex; flex-direction: column; gap: 10px;">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 9: PROFILE & CONSENT
+           ===================================================================== -->
+      <section id="tab-profile" class="tab-pane">
+        <div class="page-header-box">
+          <div>
+            <h2 class="page-title" data-i18n="nav_profile">Patient Profile, ABHA & Consent Management</h2>
+            <p class="page-subtitle">Module B Registry specifications and consent-based privacy controls</p>
+          </div>
+        </div>
+
+        <div class="profile-layout-grid">
+          <!-- Column 1: Registry Details & Interactive Permissions -->
+          <div class="surface-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+              <h3 class="card-title" style="margin: 0;"><i class="fa-solid fa-address-card" style="color: #38bdf8; margin-right: 8px;"></i>Clinical Registry Details</h3>
+              <button type="button" class="btn-primary" id="btnOpenEditProfileModal" style="padding: 6px 14px; font-size: 0.8rem; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 6px; background: rgba(14, 165, 233, 0.18); border: 1px solid rgba(14, 165, 233, 0.45); color: #38bdf8;">
+                <i class="fa-solid fa-user-pen"></i> <span data-i18n="btn_edit_profile">Edit Profile Details</span>
+              </button>
+            </div>
+            <div class="form-grid-2">
+              <div>
+                <label style="font-size: 0.76rem; color: #64748b; font-weight: 600;">Full Name</label>
+                <div style="font-weight: 700; color: var(--text-main); font-size: 1.05rem;" id="profileCardPatientName">Tanishka Sharma</div>
+              </div>
+
+              <div>
+                <label style="font-size: 0.76rem; color: #64748b; font-weight: 600;">Unique Patient ID</label>
+                <div style="font-weight: 700; color: var(--brand-teal); font-size: 1rem;" id="profileCardPatientId">SS-877041</div>
+              </div>
+
+              <div>
+                <label style="font-size: 0.76rem; color: #64748b; font-weight: 600;">Age Band & Gender</label>
+                <div style="font-weight: 600; color: var(--text-main);" id="profileCardAgeGender">45-59 years (Adult High-Risk) · Female</div>
+              </div>
+
+              <div>
+                <label style="font-size: 0.76rem; color: #64748b; font-weight: 600;">Care Programme Category</label>
+                <div style="font-weight: 600; color: var(--brand-emerald);" id="profileCardCareProgram">Chronic Hypertension & Post-PCI Surveillance</div>
+              </div>
+
+              <div>
+                <label style="font-size: 0.76rem; color: #64748b; font-weight: 600;">Preferred Communication Language</label>
+                <div style="font-weight: 600; color: var(--text-main);" id="profilePreferredLangDisp">English & Regional</div>
+              </div>
+
+              <div>
+                <label style="font-size: 0.76rem; color: #64748b; font-weight: 600;">ABHA / ABDM ID (Simulated)</label>
+                <div style="font-weight: 600; color: #3b82f6;" id="profileCardAbhaId">91-8842-1092-4412@abdm</div>
+              </div>
+            </div>
+
+            <!-- Interactive Permission & Consent Stack -->
+            <div class="consent-items-stack" style="margin-top: 24px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <h4 style="font-size: 0.92rem; font-weight: 700; color: var(--text-main); margin: 0;">
+                  <i class="fa-solid fa-user-shield" style="color: #10b981; margin-right: 6px;"></i>Consent & Permissions Manager
+                </h4>
+                <span class="nav-badge badge-cyan" id="permStatusBadge" style="font-size: 0.68rem; padding: 2px 8px;">All Permissions Active</span>
+              </div>
+
+              <div class="perm-card-item">
+                <div class="perm-icon-box" style="background: rgba(14,165,233,0.12); color: #38bdf8;">
+                  <i class="fa-solid fa-location-crosshairs"></i>
+                </div>
+                <div class="perm-details">
+                  <div class="perm-header-row">
+                    <strong>Real-Time GPS Location Permission</strong>
+                    <label class="switch-ui">
+                      <input type="checkbox" id="profileToggleLocation" checked>
+                      <span class="slider-ui"></span>
+                    </label>
+                  </div>
+                  <div class="perm-desc">
+                    Allows geolocation routing to verified doctors, PHCs, and 24x7 trauma ICUs in your immediate vicinity.
+                  </div>
+                </div>
+              </div>
+
+              <div class="perm-card-item">
+                <div class="perm-icon-box" style="background: rgba(16,185,129,0.12); color: #10b981;">
+                  <i class="fa-solid fa-comment-sms"></i>
+                </div>
+                <div class="perm-details">
+                  <div class="perm-header-row">
+                    <strong>Primary Caregiver Emergency SMS Alerts</strong>
+                    <label class="switch-ui">
+                      <input type="checkbox" id="profileToggleCaregiver" checked>
+                      <span class="slider-ui"></span>
+                    </label>
+                  </div>
+                  <div class="perm-desc" id="profileCaregiverConsentDesc">
+                    Simultaneous critical alert transmission consented for guardian Rajesh Sharma (+91 98765 43210).
+                  </div>
+                </div>
+              </div>
+
+              <div class="perm-card-item">
+                <div class="perm-icon-box" style="background: rgba(168,85,247,0.12); color: #a855f7;">
+                  <i class="fa-solid fa-brain"></i>
+                </div>
+                <div class="perm-details">
+                  <div class="perm-header-row">
+                    <strong>AI Clinical Summaries & Triage Assistance</strong>
+                    <label class="switch-ui">
+                      <input type="checkbox" id="profileToggleAI" checked>
+                      <span class="slider-ui"></span>
+                    </label>
+                  </div>
+                  <div class="perm-desc">
+                    Permits non-diagnostic AI assistant to organize symptoms and explain clinical alerts in plain language.
+                  </div>
+                </div>
+              </div>
+
+              <div class="perm-card-item">
+                <div class="perm-icon-box" style="background: rgba(245,158,11,0.12); color: #f59e0b;">
+                  <i class="fa-solid fa-user-nurse"></i>
+                </div>
+                <div class="perm-details">
+                  <div class="perm-header-row">
+                    <strong>ASHA Frontline Home Visit Access</strong>
+                    <label class="switch-ui">
+                      <input type="checkbox" id="profileToggleAsha" checked>
+                      <span class="slider-ui"></span>
+                    </label>
+                  </div>
+                  <div class="perm-desc">
+                    Authorizes local facilitator Sunita Devi to record verified doorstep check-in vitals.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Button to open full permission dialog -->
+              <button type="button" class="btn-primary" id="btnOpenPermissionModal" style="margin-top: 14px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; background: rgba(14, 165, 233, 0.15); border: 1px solid rgba(14, 165, 233, 0.4); color: #38bdf8; padding: 11px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.2s;">
+                <i class="fa-solid fa-sliders"></i> <span data-i18n="btn_manage_permissions">Authorize / Update System Permissions</span>
+              </button>
+            </div>
+
+            <div class="audit-info-box" style="margin-top: 20px; font-size: 0.76rem; color: #64748b; background: #f8fafc; padding: 12px; border-radius: 6px; border: 1px solid var(--border-light);">
+              <i class="fa-solid fa-shield-halved" style="color: var(--brand-teal);"></i>
+              <strong>Data Privacy & Security Guarantee:</strong> All clinical telemetry is handled in compliance with India's Digital Personal Data Protection Act (DPDP) and ABDM standards. Synthetic data is used for demonstration purposes.
+            </div>
+          </div>
+
+          <!-- Column 2: Swasthya AI Refined Profile Assistant -->
+          <div class="surface-card profile-ai-assistant-card" id="profileAiCard">
+            <div class="profile-ai-header">
+              <div class="ai-avatar-badge">
+                <i class="fa-solid fa-brain"></i>
+                <span class="ai-pulse-dot"></span>
+              </div>
+              <div>
+                <div class="profile-ai-title">
+                  <span data-i18n="profile_ai_title">Swasthya AI Profile Assistant</span>
+                  <span class="nav-badge badge-cyan" style="font-size:0.68rem; padding: 2px 8px; margin-left: 8px;">Refined Health Model</span>
+                </div>
+                <div class="profile-ai-sub" data-i18n="profile_ai_sub">
+                  Personalized clinical insights, health history explanation & care guidance
+                </div>
+              </div>
+            </div>
+
+            <!-- Profile Quick Query Chips -->
+            <div class="profile-ai-chips-box">
+              <div style="font-size: 0.72rem; color: #94a3b8; margin-bottom: 6px; font-weight: 600;">
+                <i class="fa-solid fa-wand-magic-sparkles" style="color: #38bdf8;"></i> QUICK CLINICAL QUESTIONS:
+              </div>
+              <div class="profile-chips-grid" id="profileAiChips">
+                <!-- Injected dynamically in current language -->
+              </div>
+            </div>
+
+            <!-- Interactive Chat Stream -->
+            <div class="profile-ai-chat-thread" id="profileAiChatThread">
+              <!-- Messages inserted dynamically based on language & questions -->
+            </div>
+
+            <!-- Chat Input Footer -->
+            <form class="profile-ai-footer" id="profileAiChatForm">
+              <input type="text" id="profileAiInput" placeholder="Ask about your diagnosis, vitals trend, or medications..." autocomplete="off">
+              <button type="submit" class="profile-ai-send-btn" id="btnSendProfileAi" aria-label="Ask AI Assistant">
+                <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </form>
+
+            <div class="profile-ai-disclaimer">
+              <i class="fa-solid fa-shield-heart" style="color: #38bdf8;"></i>
+              <span>AI-Assisted Support Layer · Grounded in verified patient registry data · Non-diagnostic</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+
+<!-- =========================================================================
+     MODAL 1: EDIT / REGISTER FAMILY CAREGIVER
+     ========================================================================= -->
+<div class="modal-overlay" id="modalEditFamily">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h3 class="modal-title">Edit Caregiver & Guardian Info</h3>
+      <button class="modal-close-btn" id="btnCloseFamilyModal">&times;</button>
+    </div>
+    <form id="formEditFamily">
+      <div class="modal-body" style="display: flex; flex-direction: column; gap: 14px;">
+        <div>
+          <label class="form-label" style="font-size: 0.8rem; font-weight: 600;">Caregiver Full Name</label>
+          <input type="text" id="inputFamName" class="form-input" required placeholder="e.g. Rajesh Sharma" style="width: 100%; padding: 8px; border: 1px solid var(--border-light); border-radius: 6px;">
+        </div>
+
+        <div>
+          <label class="form-label" style="font-size: 0.8rem; font-weight: 600;">Relationship to Patient</label>
+          <input type="text" id="inputFamRel" class="form-input" required placeholder="e.g. Father, Spouse, Daughter" style="width: 100%; padding: 8px; border: 1px solid var(--border-light); border-radius: 6px;">
+        </div>
+
+        <div>
+          <label class="form-label" style="font-size: 0.8rem; font-weight: 600;">Caregiver Mobile (For SMS Alerts)</label>
+          <input type="tel" id="inputFamPhone" class="form-input" required placeholder="e.g. +91 98765 43210" style="width: 100%; padding: 8px; border: 1px solid var(--border-light); border-radius: 6px;">
+        </div>
+
+        <div>
+          <label class="form-label" style="font-size: 0.8rem; font-weight: 600;">Caregiver Email (Optional)</label>
+          <input type="email" id="inputFamEmail" class="form-input" placeholder="e.g. rajesh@example.com" style="width: 100%; padding: 8px; border: 1px solid var(--border-light); border-radius: 6px;">
+        </div>
+
+        <div>
+          <label class="form-label" style="font-size: 0.8rem; font-weight: 600;">Preferred SMS Language</label>
+          <select id="inputFamLang" class="form-input" style="width: 100%; padding: 8px; border: 1px solid var(--border-light); border-radius: 6px;">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="mr">मराठी (Marathi)</option>
+            <option value="as">অসমীয়া (Assamese)</option>
+            <option value="bn">বাংলা (Bengali)</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px;">
+        <button type="button" class="btn-hero-secondary" id="btnCancelFamilyModal">Cancel</button>
+        <button type="submit" class="btn-hero-action">Save Caregiver Info</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- =========================================================================
+     MODAL 2: EMERGENCY SOS DISPATCH
+     ========================================================================= -->
+<div class="modal-overlay" id="modalEmergencySOS">
+  <div class="modal-container emergency-modal-style">
+    <div class="modal-header">
+      <h3 class="modal-title" style="color: var(--brand-crimson);"><i class="fa-solid fa-triangle-exclamation"></i> Emergency SOS Broadcast</h3>
+      <button class="modal-close-btn" id="btnCloseSosModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="emergency-desc">
+        Are you experiencing a severe medical emergency (such as severe chest pain, sudden paralysis, or severe respiratory distress)?
+      </div>
+      <div class="emergency-alert-highlights" style="background: #fef2f2; border: 1px solid #fecaca; padding: 14px; border-radius: 8px; margin: 16px 0; font-size: 0.82rem; color: #991b1b;">
+        <div><strong>Confirming will immediately:</strong></div>
+        <ul style="margin-left: 20px; margin-top: 6px;">
+          <li>Transmit priority SOS coordinates to primary caregiver (<span id="sosCaregiverName">Rajesh Sharma</span>).</li>
+          <li>Trigger urgent clinical callback flag for Dr. Ananya Sharma.</li>
+          <li>Alert frontline ASHA coordinator Sunita Devi.</li>
+          <li>Provide one-touch 108 Emergency Ambulance connection.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 10px;">
+      <button type="button" class="btn-hero-secondary" id="btnCancelSos">Cancel</button>
+      <button type="button" class="btn-danger-large" id="btnConfirmSos" style="background: var(--brand-crimson); color: #fff; padding: 10px 18px; border: none; border-radius: 6px; font-weight: 700; cursor: pointer;">
+        <i class="fa-solid fa-phone-volume"></i> Confirm SOS Dispatch
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- =========================================================================
+     MODAL 3: REQUEST APPOINTMENT
+     ========================================================================= -->
+<div class="modal-overlay" id="modalRequestAppointment">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h3 class="modal-title">Request Appointment / Teleconsultation</h3>
+      <button class="modal-close-btn" id="btnCloseApptModal">&times;</button>
+    </div>
+    <form id="formRequestAppointment">
+      <div class="modal-body" style="display: flex; flex-direction: column; gap: 14px;">
+        <div>
+          <label class="form-label" style="font-size: 0.8rem; font-weight: 600;">Appointment Type</label>
+          <select id="reqApptType" class="form-input" style="width: 100%; padding: 8px; border: 1px solid var(--border-light); border-radius: 6px;">
+            <option value="Routine Follow-up Consult">Routine Follow-up Consult</option>
+            <option value="Symptom Follow-up Consult">Symptom Follow-up Consult</option>
+            <option value="BP & Medication Review">BP & Medication Review</option>
+            <option value="Post-Hospitalization Review">Post-Hospitalization Review</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="form-label" style="font-size: 0.8rem; font-weight: 600;">Preferred Date</label>
+          <input type="date" id="reqApptDate" class="form-input" required style="width: 100%; padding: 8px; border: 1px solid var(--border-light); border-radius: 6px;">
+        </div>
+
+        <div>
+          <label class="form-label" style="font-size: 0.8rem; font-weight: 600;">Preferred Time Slot</label>
+          <select id="reqApptTime" class="form-input" style="width: 100%; padding: 8px; border: 1px solid var(--border-light); border-radius: 6px;">
+            <option value="10:00 AM - 11:00 AM">Morning: 10:00 AM - 11:00 AM</option>
+            <option value="02:00 PM - 03:00 PM">Afternoon: 02:00 PM - 03:00 PM</option>
+            <option value="05:00 PM - 06:00 PM">Evening: 05:00 PM - 06:00 PM</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="form-label" style="font-size: 0.8rem; font-weight: 600;">Reason for Visit</label>
+          <textarea id="reqApptReason" class="form-input" rows="3" placeholder="Briefly state your concern or reason for follow-up..." style="width: 100%; padding: 8px; border: 1px solid var(--border-light); border-radius: 6px; font-size: 0.82rem;"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px;">
+        <button type="button" class="btn-hero-secondary" id="btnCancelApptModal">Cancel</button>
+        <button type="submit" class="btn-hero-action">Submit Request</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- =========================================================================
+     MODAL 4: PATIENT HEALTHCARE DATA & LOCATION PERMISSION CENTER
+     ========================================================================= -->
+<div class="modal-overlay" id="modalPermissionConsent">
+  <div class="modal-container" style="max-width: 580px; background: #0b222f; border: 1px solid rgba(14, 165, 233, 0.35); border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); overflow: hidden;">
+    <div class="modal-header" style="background: linear-gradient(135deg, #0f2d3e, #071922); padding: 18px 22px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(14,165,233,0.18); display: flex; align-items: center; justify-content: center; color: #38bdf8; font-size: 1.25rem;">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <div>
+          <h3 class="modal-title" style="font-size: 1.05rem; margin: 0; color: #fff;">Healthcare Data & Location Access Permissions</h3>
+          <p style="font-size: 0.72rem; color: #38bdf8; margin: 2px 0 0 0;">Consent-First Architecture · DPDP & ABDM Compliant</p>
+        </div>
+      </div>
+      <button class="modal-close-btn" id="btnClosePermissionModal" style="color: #94a3b8; font-size: 1.4rem; background: none; border: none; cursor: pointer;">&times;</button>
+    </div>
+
+    <div class="modal-body" style="padding: 22px; display: flex; flex-direction: column; gap: 14px; background: #071720;">
+      <p style="font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px; line-height: 1.45;">
+        To deliver proactive early warning signals, prevent dropped follow-ups, and route you to verified nearby emergency facilities, Swasthya Sense requires your informed consent before accessing device data:
+      </p>
+
+      <!-- Permission 1: GPS Geolocation -->
+      <div class="perm-card-item">
+        <div class="perm-icon-box" style="background: rgba(14,165,233,0.15); color: #38bdf8;">
+          <i class="fa-solid fa-location-crosshairs"></i>
+        </div>
+        <div class="perm-details">
+          <div class="perm-header-row">
+            <strong>Precise Geolocation (GPS) Access</strong>
+            <label class="switch-ui">
+              <input type="checkbox" id="modalToggleLocation" checked>
+              <span class="slider-ui"></span>
+            </label>
+          </div>
+          <div class="perm-desc">
+            Enables radius-based discovery of verified Primary Health Centres (PHCs), cardiologists, and 24x7 trauma ICUs. Location is processed securely on-device.
+          </div>
+        </div>
+      </div>
+
+      <!-- Permission 2: Family Caregiver Emergency Notifications -->
+      <div class="perm-card-item">
+        <div class="perm-icon-box" style="background: rgba(16,185,129,0.15); color: #10b981;">
+          <i class="fa-solid fa-users"></i>
+        </div>
+        <div class="perm-details">
+          <div class="perm-header-row">
+            <strong>Caregiver Dual SMS & WhatsApp Alerts</strong>
+            <label class="switch-ui">
+              <input type="checkbox" id="modalToggleCaregiver" checked>
+              <span class="slider-ui"></span>
+            </label>
+          </div>
+          <div class="perm-desc">
+            Permits simultaneous automated SMS / WhatsApp alerts to registered primary guardian (<span id="modalPermCaregiverName">Rajesh Sharma</span>) during severe clinical warnings.
+          </div>
+        </div>
+      </div>
+
+      <!-- Permission 3: AI Clinical Processing -->
+      <div class="perm-card-item">
+        <div class="perm-icon-box" style="background: rgba(168,85,247,0.15); color: #a855f7;">
+          <i class="fa-solid fa-brain"></i>
+        </div>
+        <div class="perm-details">
+          <div class="perm-header-row">
+            <strong>AI Clinical Summaries & Triage Assistance</strong>
+            <label class="switch-ui">
+              <input type="checkbox" id="modalToggleAI" checked>
+              <span class="slider-ui"></span>
+            </label>
+          </div>
+          <div class="perm-desc">
+            Permits refined AI model to translate records into your regional language, structure symptom check-ins, and prepare non-diagnostic clinician case briefs.
+          </div>
+        </div>
+      </div>
+
+      <!-- Permission 4: ASHA Worker Assisted Check-ins -->
+      <div class="perm-card-item">
+        <div class="perm-icon-box" style="background: rgba(245,158,11,0.15); color: #f59e0b;">
+          <i class="fa-solid fa-user-nurse"></i>
+        </div>
+        <div class="perm-details">
+          <div class="perm-header-row">
+            <strong>ASHA Frontline Home Visit Access</strong>
+            <label class="switch-ui">
+              <input type="checkbox" id="modalToggleAsha" checked>
+              <span class="slider-ui"></span>
+            </label>
+          </div>
+          <div class="perm-desc">
+            Allows local ASHA facilitator (Sunita Devi) to input verified doorstep vitals and assist with appointment scheduling.
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div style="display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap;">
+        <button type="button" class="btn-hero-action" id="btnModalSavePermissions" style="flex: 1; min-width: 200px; padding: 12px 18px; font-weight: 700; background: linear-gradient(135deg, #0ea5e9, #0284c7); border: none; border-radius: 8px; color: #fff; cursor: pointer;">
+          <i class="fa-solid fa-circle-check"></i> Grant & Save Permissions
+        </button>
+        <button type="button" class="btn-hero-secondary" id="btnModalManualLocation" style="padding: 12px 16px; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: #cbd5e1; border-radius: 8px; cursor: pointer;">
+          Manual Selection Only
+        </button>
+      </div>
+
+      <div style="font-size: 0.72rem; color: #64748b; text-align: center; margin-top: 4px;">
+        <i class="fa-solid fa-lock" style="color: #10b981;"></i> You can modify or revoke these permissions at any time in "My Profile".
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================================
+     MODAL: EDIT PATIENT PROFILE DETAILS (SYNCS EVERYWHERE)
+     ========================================================================= -->
+<div class="modal-overlay" id="modalEditPatientProfile">
+  <div class="modal-container" style="max-width: 540px; background: #0b222f; border: 1px solid rgba(14, 165, 233, 0.35); border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); overflow: hidden;">
+    <div class="modal-header" style="background: linear-gradient(135deg, #0f2d3e, #071922); padding: 18px 22px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="width: 38px; height: 38px; border-radius: 10px; background: rgba(14, 165, 233, 0.15); display: flex; align-items: center; justify-content: center; color: #38bdf8; font-size: 1.1rem;">
+          <i class="fa-solid fa-user-pen"></i>
+        </div>
+        <div>
+          <h3 class="modal-title" style="font-size: 1.05rem; margin: 0; color: #fff;">Edit Patient Profile Details</h3>
+          <div style="font-size: 0.75rem; color: #94a3b8;">Updates synchronize across login, headers, Attention Engine & SMS</div>
+        </div>
+      </div>
+      <button class="modal-close-btn" id="btnCloseEditProfileModal" style="color: #94a3b8; font-size: 1.4rem; background: none; border: none; cursor: pointer;">&times;</button>
+    </div>
+    <form id="formEditPatientProfile">
+      <div class="modal-body" style="padding: 22px; display: flex; flex-direction: column; gap: 14px; background: #071720;">
+        <div class="form-group">
+          <label style="display: block; font-size: 0.8rem; font-weight: 600; color: #cbd5e1; margin-bottom: 6px;">Patient Full Name</label>
+          <div class="input-wrap" style="position: relative;">
+            <input type="text" id="inputEditFullName" class="form-input" required placeholder="Enter your full name" style="width: 100%; padding: 10px 12px; background: #0b222f; border: 1px solid #1e3a4b; border-radius: 8px; color: #fff; font-size: 0.95rem;">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label style="display: block; font-size: 0.8rem; font-weight: 600; color: #cbd5e1; margin-bottom: 6px;">Age Band</label>
+            <select id="selectEditAgeBand" class="form-input" style="width: 100%; padding: 10px 12px; background: #0b222f; border: 1px solid #1e3a4b; border-radius: 8px; color: #fff;">
+              <option value="18-24">18-24 years</option>
+              <option value="25-34">25-34 years</option>
+              <option value="35-44">35-44 years</option>
+              <option value="45-59" selected>45-59 years</option>
+              <option value="60+">60+ years (Geriatric)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label style="display: block; font-size: 0.8rem; font-weight: 600; color: #cbd5e1; margin-bottom: 6px;">Gender</label>
+            <select id="selectEditGender" class="form-input" style="width: 100%; padding: 10px 12px; background: #0b222f; border: 1px solid #1e3a4b; border-radius: 8px; color: #fff;">
+              <option value="Female" selected>Female</option>
+              <option value="Male">Male</option>
+              <option value="Other">Other / Non-binary</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label style="display: block; font-size: 0.8rem; font-weight: 600; color: #cbd5e1; margin-bottom: 6px;">Care Programme</label>
+          <input type="text" id="inputEditCareProgram" class="form-input" value="Chronic Hypertension & Post-PCI Surveillance" style="width: 100%; padding: 10px 12px; background: #0b222f; border: 1px solid #1e3a4b; border-radius: 8px; color: #94a3b8;" readonly>
+        </div>
+
+        <div class="form-group">
+          <label style="display: block; font-size: 0.8rem; font-weight: 600; color: #cbd5e1; margin-bottom: 6px;">ABHA / ABDM Health ID</label>
+          <input type="text" id="inputEditAbhaId" class="form-input" value="91-8842-1092-4412@abdm" placeholder="e.g. 91-8842-1092-4412@abdm" style="width: 100%; padding: 10px 12px; background: #0b222f; border: 1px solid #1e3a4b; border-radius: 8px; color: #fff;">
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 10px; padding: 16px 22px; background: #071922; border-top: 1px solid rgba(255, 255, 255, 0.08);">
+        <button type="button" class="btn-hero-secondary" id="btnCancelEditProfileModal" style="padding: 9px 18px; border-radius: 8px; cursor: pointer;">Cancel</button>
+        <button type="submit" class="btn-primary" style="padding: 9px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; background: #0ea5e9; color: #fff; border: none; display: flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-floppy-disk"></i> Save & Sync Profile Name
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- =========================================================================
+     FLOATING EMERGENCY AI HEALTHCARE CHATBOT (MULTILINGUAL)
+     ========================================================================= -->
+<div class="emergency-chatbot-pill-btn" id="btnOpenEmergencyChatbot" title="Click to open Emergency Healthcare Assistant">
+  <div class="bot-beacon-ring"></div>
+  <i class="fa-solid fa-headset"></i>
+  <span id="chatbotFabText">Emergency Health Chatbot</span>
+</div>
+
+<!-- Floating Chatbot Modal Window -->
+<div class="emergency-chatbot-window" id="emergencyChatbotWindow">
+  <div class="chat-win-header">
+    <div>
+      <div class="chat-win-title" id="chatWinTitle">
+        <i class="fa-solid fa-shield-heart" style="color: #38bdf8;"></i>
+        <span>Emergency Health Assistant</span>
+      </div>
+      <div class="chat-win-sub" id="chatWinSub">AI Triage · 24x7 Safety · Non-Diagnostic</div>
+    </div>
+    <button class="chat-win-close" id="btnCloseEmergencyChatbot" aria-label="Close">&times;</button>
+  </div>
+
+  <div class="chat-win-body" id="emergencyChatStream">
+    <!-- Messages inserted dynamically based on active language -->
+  </div>
+
+  <!-- Quick Localized Emergency Chips -->
+  <div class="chat-quick-chips" id="emergencyChatChips">
+    <!-- Chips inserted dynamically in active language -->
+  </div>
+
+  <form class="chat-win-footer" id="emergencyChatForm">
+    <input type="text" id="emergencyChatInput" placeholder="Ask symptom or emergency advice..." autocomplete="off">
+    <button type="submit" class="chat-send-btn" id="btnSendEmergencyChat" aria-label="Send Message">
+      <i class="fa-solid fa-paper-plane"></i>
+    </button>
+  </form>
+</div>
+
+<!-- Toast Notifications -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Application Logic -->
+<script src="app.js"></script>
+
+<script>
+  // Set current date in dashboard header
+  const d = new Date();
+  const dateStr = d.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const dateEl = document.getElementById('dashboardDateText');
+  if (dateEl) dateEl.textContent = dateStr;
+</script>
+
+</body>
+</html>
